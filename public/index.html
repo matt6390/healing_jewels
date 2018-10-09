@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My App</title>
+  <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBkrVTdbWz7-l9Xbi6wxCp4NRh2b-GJ11E",
+      authDomain: "healing-jewels.firebaseapp.com",
+      databaseURL: "https://healing-jewels.firebaseio.com",
+      projectId: "healing-jewels",
+      storageBucket: "healing-jewels.appspot.com",
+      messagingSenderId: "551917582813"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.css" />
+      <script type="text/javascript">
+        // FirebaseUI config.
+        var uiConfig = {
+          signInSuccessUrl: '/products',
+          signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+            // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+            // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+          ],
+          // tosUrl and privacyPolicyUrl accept either url string or a callback
+          // function.
+          // Terms of service url/callback.
+          tosUrl: '<your-tos-url>',
+          // Privacy policy url/callback.
+          privacyPolicyUrl: function() {
+            window.location.assign('<your-privacy-policy-url>');
+          }
+        };
+
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+      </script>
+
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="index.js" defer></script>
+</head>
+<body>
+  <div id="vue-app">
+
+
+    <router-view></router-view >
+
+  
+  </div>
+</body>
+
+</html>
+
+<template id="home-page">
+  <div class="vue-component">
+
+    <button v-on:click='signOut()'>Sign Out</button>
+    <h1>{{ message }}</h1>
+    <h4>{{ user }}</h4>
+    <div id="firebaseui-auth-container"></div>
+
+  </div>
+</template>
+
+<template id="products-page">
+  <div class="vue-component">
+
+    <a href="#/products-create">Add New Product</a>
+    <p>{{ products }}</p>
+    
+  </div>
+</template>
+
+<template id="products-create-page">
+  <div class="vue-component">
+    <p>{{something}}</p>
+    <form>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" name="description">
+      </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input type="integer" name="price">
+      </div>
+    </form>
+  </div>
+</template>
+
+
+
+<template id="home-page-demo">
+  <div class="vue-component">
+
+    <h1>{{ message }}</h1>
+
+  </div>
+</template>
+
+
+
+
