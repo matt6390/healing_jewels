@@ -17,8 +17,10 @@ class UrlsController < ApplicationController
   end
 
   def destroy
-    @url = Url.last
-    @url.destroy
+    @urls = Url.all
+    @urls.each do |url|
+      url.destroy
+    end
     render json: {message: "Most recent download url removed from database"}
   end
 end

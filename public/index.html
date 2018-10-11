@@ -104,7 +104,6 @@
 <template id="products-create-page">
   <div class="vue-component">
     <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
-    <p>{{something}}</p>
     <form>
       <div class="form-group">
         <label>Name</label>
@@ -128,6 +127,7 @@
       <button type="button">
         <a v-on:click="createProduct()">Add New Product</a>
       </button>
+      <input type="reset">
     </form>
   </div>
 </template>

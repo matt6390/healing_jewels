@@ -74,16 +74,16 @@ var ProductsCreatePage = {
   template: "#products-create-page",
   data: function() {
     return {
-      something: "words",
       name: "",
       description: "",
       uploadProgress: "",
       price: "",
-      errors: ""
+      errors: []
     };
   },
   created: function() {
-    var storageRef = firebase.storage();
+    //makes sure that there are no other picture urls in the system. So we arent constantly storing them. No need
+    axios.delete('/urls');
   },
   methods: {
 
@@ -177,22 +177,31 @@ var ProductsCreatePage = {
       // });
 
     },
-    createProduct: function() {
+    createProduct: function() { //creates the product in the database
+      //grabs the url for the picture that was stored in readURL above
       axios.get("/urls").then(function(response) {
         var link = response.data.link;
+        //create params
         var params = {
           name: this.name,
           description: this.description,
           price: this.price,
           download_url: link
         };
+        //create the 'product' in the database
         axios.post("/products", params).then(function(response) {
           response = response.data;
-          console.log(response);
+          //remove the URL instance from the database
+          axios.delete('/urls');
+          //catches errors
         }).catch(function(errors) { 
           this.errors = errors.response.data.errors;
           console.log(errors.response.data.errors);
         }.bind(this));
+      }.bind(this)).catch(function(errors) {
+        //did not have an error that was raised to correctly say that the link was missing, so I mad my own
+        var error = "No photo detected";
+        this.errors.push(error);
       }.bind(this));
 
     }

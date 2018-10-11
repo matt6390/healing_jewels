@@ -11,5 +11,5 @@ Rails.application.routes.draw do
   get "/urls/:id" => 'urls#show'
   post "/urls" => 'urls#create'
   patch "/urls/:id" => 'urls#update'  
-  delete "/urls/:id" => 'urls#destroy'
+  delete "/urls" => 'urls#destroy'
 end
