@@ -12,4 +12,16 @@ Rails.application.routes.draw do
   post "/urls" => 'urls#create'
   patch "/urls/:id" => 'urls#update'  
   delete "/urls" => 'urls#destroy'
+
+  get "/carts" => 'carts#index'
+  get "/carts/:id" => 'carts#show'
+  post "/carts" => 'carts#create'
+  patch "/carts/:id" => 'carts#update'  
+  delete "/carts" => 'carts#destroy'
+
+  get "/carted_products" => 'carted_products#index'
+  get "/carted_products/:id" => 'carted_products#show'
+  post "/carted_products" => 'carted_products#create'
+  patch "/carted_products/:id" => 'carted_products#update'  
+  delete "/carted_products" => 'carted_products#destroy'
 end

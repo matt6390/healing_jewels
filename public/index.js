@@ -209,12 +209,35 @@ var ProductsCreatePage = {
   computed: {}
 };
 
+var CartPage = {
+  template: "#cart-page",
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!",
+      user: "something"
+    };
+  },
+  created: function() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("No one is logged in");
+        router.push("/signin");
+      }
+    });
+  },
+  methods: {  },
+  computed: {}
+};
+
 var router = new VueRouter({
   routes: [
            { path: "/signin", component: SignInPage }, 
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
-           { path: "/products-create", component: ProductsCreatePage }
+           { path: "/products-create", component: ProductsCreatePage },
+           { path: "/cart", component: CartPage }
            ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

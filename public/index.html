@@ -57,9 +57,18 @@
 </head>
 <body>
   <div id="vue-app">
-    <a href="#/signout">Sign Out</a> 
-    <a href="#/signin">Sign In</a> 
-    <a href="#/products">Return to Home Page</a>
+    <button>
+      <a href="#/signin">Sign In</a> 
+    </button>
+    <button>
+      <a href="#/products">Return to Home Page</a>
+    </button>
+    <button>
+      <a href="#/signout">Sign Out</a> 
+    </button>
+    <button>
+      <a href="#/cart">Cart</a> 
+    </button>
 
     <router-view></router-view >
 
@@ -132,6 +141,14 @@
   </div>
 </template>
 
+
+<template id="cart-page">
+  <div class="vue-component">
+
+    <h1>{{ message }}</h1>
+
+  </div>
+</template>
 
 
 <template id="sign-out-page">
