@@ -209,18 +209,24 @@ var ProductsCreatePage = {
   computed: {}
 };
 
-var CartPage = {
-  template: "#cart-page",
+var CartsPage = {
+  template: "#carts-page",
   data: function() {
     return {
-      message: "Welcome to Vue.js!",
-      user: "something"
+      message: "Welcome to Vue.js!"
     };
   },
   created: function() {
+    //when the page loads, checks to see if they have a cart
     firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log(user);
+      if (user) {  //if logged in, create a user
+        var uid = user.uid;
+        var params = {uid: user.uid};
+        //the database will check first to make sure a cart doesnt exist yet
+        axios.post("/carts", params).then(function(response) {
+          console.log(response.data);
+          router.push("/carts/" + uid);
+        }.bind(this));
       } else {
         console.log("No one is logged in");
         router.push("/signin");
@@ -237,7 +243,7 @@ var router = new VueRouter({
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
            { path: "/products-create", component: ProductsCreatePage },
-           { path: "/cart", component: CartPage }
+           { path: "/carts", component: CartsPage }
            ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
