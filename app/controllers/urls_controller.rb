@@ -4,7 +4,7 @@ class UrlsController < ApplicationController
 
     render json: @url.as_json
   end
-  
+
   def create
     @url = Url.new(
                     link: params[:link]

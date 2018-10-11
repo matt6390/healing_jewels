@@ -16,7 +16,8 @@ class ProductsController < ApplicationController
     @product = Product.new(
                             name: params[:name],
                             description: params[:description],
-                            price: params[:price]
+                            price: params[:price],
+                            download_url: params[:download_url]
                           )
     if @product.save
      render 'show.json.jbuilder'
@@ -31,6 +32,7 @@ class ProductsController < ApplicationController
     @product.name = params[:name] || @product.name
     @product.description = params[:description] || @product.description
     @product.price = params[:price] || @product.price
+    @product.download_url = params[:download_url] || @product.download_url
 
     if @product.save
      render 'show.json.jbuilder'

@@ -77,74 +77,124 @@ var ProductsCreatePage = {
       something: "words",
       name: "",
       description: "",
+      uploadProgress: "",
       price: "",
-      picURL: "",
-      productPicture: []
+      errors: ""
     };
   },
   created: function() {
     var storageRef = firebase.storage();
   },
   methods: {
-    signOut: function() {
-      firebase.auth().signOut().then(function() {
-        console.log('Signed Out');
-        router.push("#");
-      }, function(error) {
-        console.error('Sign Out Error', error);
-      });
-    },
-    readURL: function() {
-      this.productPicture = document.getElementById("productPicture").files[0];
-      console.log(this.productPicture.name);
-      var storageRef = firebase.storage().ref(this.productPicture.name).put(this.productPicture);
-      storageRef.on('state_changed', function(snapshot) {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
 
+    readURL: function() { //this function will upload a picture, and provide a download link to be used later
+      console.log('Starting function');
+      var pictureFile = document.getElementById("productPicture").files[0];
+      //contact the firebase storage server
+      var ref = firebase.storage().ref();
+      var upload = ref.child(pictureFile.name).put(pictureFile);
+
+      //provides information on upload progress (usefull for really big picture files)
+      upload.on('state_changed', function(snapshot) {
+        //this is used to display the upload progress of the image
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log('Upload is ' + progress + '% done');
         switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            // console.log('Upload is running');
-            break;
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log('Upload is paused');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          // console.log('Upload is running');
+          break;
         }
       });
-      //must save the download URL here
-      storageRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-          console.log(downloadURL);
-          this.picURL = downloadURL;
-          //create the url in the database
-          var params = {link: this.picURL};
+
+      //this gets the download URL from the snapshot, and then saves it in the database
+      upload.then(function(snap) {
+        var url = snap.ref.getDownloadURL().then(function(url) {
+          //change the picture for the preview
+          var previewPic = document.getElementById('previewPic');
+          previewPic.src = url;
+          //upload the download link to the database
+          var params = {link: url};
           axios.post("/urls", params).then(function(response) {
-            console.log(response.data);
-          });
+            console.log(response.data.link);
+          }.bind(this));
         });
-      axios.get("/urls").then(function(response) {
-        this.picURL = response.data.link;
-        console.log(this.picURL);
-      }.bind(this));
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // var storageRef = firebase.storage().ref().child(pictureFile.name);
+
+
+
+
+      // storageRef.put(pictureFile).on('state_changed', function(snapshot) {
+      //   //this is used to display the upload progress of the image
+      //   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //   console.log('Upload is ' + progress + '% done');
+      //   switch (snapshot.state) {
+      //   case firebase.storage.TaskState.PAUSED: // or 'paused'
+      //     console.log('Upload is paused');
+      //     break;
+      //   case firebase.storage.TaskState.RUNNING: // or 'running'
+      //     // console.log('Upload is running');
+      //     break;
+      //   }
+      // });
+      // //must save the download URL outside of this little function
+      // storageRef.getDownloadURL().then(function(downloadURL) {
+        
+      //   //create the url in the database
+      //   var params = {link: downloadURL};
+      //   axios.post("/urls", params).then(function(response) {
+      //     //the link is stored as a URL item in the database
+      //     this.picURL = response.data.link;
+      //     //now changing the pic in the preview window so you know you picked the right one
+      //     var previewPic = document.getElementById('previewPic');
+      //     previewPic.src = this.picURL;
+      //     console.log('Actual Pic Link: ' + this.picURL); //the one returned when url was saved
+      //   });
+      // }).then(function() {
+      //   console.log('then');
+      //   //retrieve the URL from the database since we are now outside of the Snapshot functions
+      //   axios.get("/urls").then(function(response) {
+      //     //set the link for us to access now
+      //     this.picURL = response.data.link;
+      //     console.log("Retrieved from database: " + this.picURL);
+      //   }.bind(this));
+      // });
 
     },
-
-
     createProduct: function() {
-      console.log('click');
-      
+      axios.get("/urls").then(function(response) {
+        var link = response.data.link;
+        var params = {
+          name: this.name,
+          description: this.description,
+          price: this.price,
+          download_url: link
+        };
+        axios.post("/products", params).then(function(response) {
+          response = response.data;
+          console.log(response);
+        }).catch(function(errors) { 
+          this.errors = errors.response.data.errors;
+          console.log(errors.response.data.errors);
+        }.bind(this));
+      }.bind(this));
 
-
-    //   var params = {
-    //     name: this.name,
-    //     description: this.description,
-    //     price: this.price
-    //   };
-    //   axios.post("/products", params).then(function(response) {
-    //     response = response.data;
-    //     console.log(response);
-    //   }.bind(this));
     }
   },
   computed: {}

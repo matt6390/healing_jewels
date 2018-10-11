@@ -81,20 +81,29 @@
 
 <template id="products-page">
   <div class="vue-component">
-
-    <a href="#/products-create">Add New Product</a>
-      
-    <div v-for="product in products" class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card">
-        <p> {{ product }}</p>
+    <div class="container">
+      <div class="row">
+        <a href="#/products-create">Add New Product</a>        
+      </div>
+      <div class="row">
+        <div v-for="product in products" class="col-md-4">
+          <div class="card">
+            <img class="card-img" height="200" width="200" v-bind:src='product.download_url'></img>
+            <p class="card-text"> {{ product }}</p>
+            <h4 class="product-name">Name: {{ product.name }}</h4>
+            <p class="product-description">{{ product.description }}</p>
+          </div>
+        </div>
       </div>
     </div>
-    
+
+      
   </div>
 </template>
 
 <template id="products-create-page">
   <div class="vue-component">
+    <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
     <p>{{something}}</p>
     <form>
       <div class="form-group">
@@ -113,7 +122,12 @@
         <label>Picture</label>
         <input id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
       </div>
-      <button v-on:click="createProduct()">Add New Product</button>
+      <ul>
+        <li v-for="error in errors" style="color:red"> {{ error }}</li>
+      </ul>
+      <button type="button">
+        <a v-on:click="createProduct()">Add New Product</a>
+      </button>
     </form>
   </div>
 </template>
