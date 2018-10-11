@@ -6,6 +6,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-storage.js"></script>
   <script>
     // Initialize Firebase
     var config = {
@@ -23,7 +24,7 @@
       <script type="text/javascript">
         // FirebaseUI config.
         var uiConfig = {
-          signInSuccessUrl: '/products',
+          signInSuccessUrl: '#/products',
           signInOptions: [
             // Leave the lines as is for the providers you want to offer your users.
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -49,8 +50,6 @@
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
       </script>
-
-
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
@@ -58,7 +57,9 @@
 </head>
 <body>
   <div id="vue-app">
-
+    <a href="#/signout">Sign Out</a> 
+    <a href="#/signin">Sign In</a> 
+    <a href="#/products">Return to Home Page</a>
 
     <router-view></router-view >
 
@@ -68,10 +69,9 @@
 
 </html>
 
-<template id="home-page">
+<template id="sign-in-page">
   <div class="vue-component">
 
-    <button v-on:click='signOut()'>Sign Out</button>
     <h1>{{ message }}</h1>
     <h4>{{ user }}</h4>
     <div id="firebaseui-auth-container"></div>
@@ -83,7 +83,12 @@
   <div class="vue-component">
 
     <a href="#/products-create">Add New Product</a>
-    <p>{{ products }}</p>
+      
+    <div v-for="product in products" class="col-md-4 col-sm-6 col-lg-3">
+      <div class="card">
+        <p> {{ product }}</p>
+      </div>
+    </div>
     
   </div>
 </template>
@@ -94,23 +99,28 @@
     <form>
       <div class="form-group">
         <label>Name</label>
-        <input type="text" name="name">
+        <input type="text" v-model="name">
       </div>
       <div class="form-group">
         <label>Description</label>
-        <input type="text" name="description">
+        <input type="text" name="description" v-model="description">
       </div>
       <div class="form-group">
         <label>Price</label>
-        <input type="integer" name="price">
+        <input type="integer" name="price" v-model="price">
       </div>
+      <div class="form-group">
+        <label>Picture</label>
+        <input id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
+      </div>
+      <button v-on:click="createProduct()">Add New Product</button>
     </form>
   </div>
 </template>
 
 
 
-<template id="home-page-demo">
+<template id="sign-out-page">
   <div class="vue-component">
 
     <h1>{{ message }}</h1>
