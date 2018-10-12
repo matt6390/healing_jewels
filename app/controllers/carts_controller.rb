@@ -18,7 +18,7 @@ class CartsController < ApplicationController
         render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
       end
     else  #If this triggers, it means that you already have a cart
-      render json: {message: "Cart already made"}
+      render 'show.json.jbuilder'
     end
 
   end

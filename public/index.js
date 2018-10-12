@@ -253,34 +253,32 @@ var ProductShowPage = {
   data: function() {
     return {
       message: "Welcome to Product Show!",
-      product_id: this.$route.params.id,
-      cartId: ""
+      productId: parseInt(this.$route.params.id, 10) //parseInt() turns the '12' that is returned by the route.id into an integer
     };
   },
   created: function() {
   },
   methods: {
     addToCart: function() {
+      //create the initial params outside of the firebase function, otherwise you cant access the returned data from Vue.js
+      var params = {product_id: this.productId};
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {  //if logged in
           var uid = user.uid;
+          var cartParams = {uid: user.uid};
           //use the uid to find your cart
-          axios.get('/carts/' + uid).then(function(response) {
-            //get cartId
-            var cartId = response.data.id;
-            this.cartId = cartId;
-            //create the params for carting the product
-            var params = {product_id: this.product_id};
-            // WHY IS THE PRODUCT ID INVISIBLE????????????
-            console.log(params);
-          });
-        } else {
+          axios.post("/carts", cartParams).then(function(response) {
+            params['cart_id'] = response.data.id;
+            // creates the carted_product
+            axios.post('/carted_products', params).then(function(response) {
+              console.log(response.data);
+            });
+          }.bind(this));
+        } else { //redirect to the signin page if you are not already logged in
           console.log("No one is logged in");
           router.push("/signin");
         }
-      }).bind(this);
-
-
+      }.bind(this));
     }
   },
   computed: {}
