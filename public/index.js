@@ -209,11 +209,10 @@ var ProductsCreatePage = {
   computed: {}
 };
 
-var CartsPage = {
-  template: "#carts-page",
+var CartPage = {
+  template: "#cart-page",
   data: function() {
     return {
-      message: "Welcome to Vue.js!"
     };
   },
   created: function() {
@@ -236,6 +235,19 @@ var CartsPage = {
   methods: {  },
   computed: {}
 };
+var CartsPage = {
+  template: "#carts-page",
+  data: function() {
+    return {
+      message: "Welcome to Your Cart!",
+      uid: this.$route.params.id
+    };
+  },
+  created: function() {
+  },
+  methods: {},
+  computed: {}
+};
 
 var router = new VueRouter({
   routes: [
@@ -243,7 +255,8 @@ var router = new VueRouter({
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
            { path: "/products-create", component: ProductsCreatePage },
-           { path: "/carts", component: CartsPage }
+           { path: "/cart", component: CartPage },
+           { path: "/carts/:id", component: CartsPage }
            ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

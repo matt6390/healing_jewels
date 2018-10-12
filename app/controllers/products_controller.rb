@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
                             price: params[:price],
                             download_url: params[:download_url]
                           )
-    if @product.save
+    if @product.save 
      render 'show.json.jbuilder'
     else
       render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity

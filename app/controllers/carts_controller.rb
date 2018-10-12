@@ -1,7 +1,8 @@
 class CartsController < ApplicationController
   def show
-    @cart = Cart.find_by(uid: params[:uid])
-     render json: @cart.as_json
+    @cart = Cart.find_by(uid: params[:id])
+
+    render 'show.json.jbuilder'
   end
   def create
     # this function will be called a lot when people are accessing their carts

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   patch "/carts/:id" => 'carts#update'  
   delete "/carts" => 'carts#destroy'
 
-  get "/carted_products" => 'carted_products#index'
+  get "/carted_products/:id" => 'carted_products#index'
   get "/carted_products/:id" => 'carted_products#show'
   post "/carted_products" => 'carted_products#create'
   patch "/carted_products/:id" => 'carted_products#update'  
