@@ -248,12 +248,50 @@ var CartsPage = {
   methods: {},
   computed: {}
 };
+var ProductShowPage = {
+  template: "#product-show-page",
+  data: function() {
+    return {
+      message: "Welcome to Product Show!",
+      product_id: this.$route.params.id,
+      cartId: ""
+    };
+  },
+  created: function() {
+  },
+  methods: {
+    addToCart: function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {  //if logged in
+          var uid = user.uid;
+          //use the uid to find your cart
+          axios.get('/carts/' + uid).then(function(response) {
+            //get cartId
+            var cartId = response.data.id;
+            this.cartId = cartId;
+            //create the params for carting the product
+            var params = {product_id: this.product_id};
+            // WHY IS THE PRODUCT ID INVISIBLE????????????
+            console.log(params);
+          });
+        } else {
+          console.log("No one is logged in");
+          router.push("/signin");
+        }
+      }).bind(this);
+
+
+    }
+  },
+  computed: {}
+};
 
 var router = new VueRouter({
   routes: [
            { path: "/signin", component: SignInPage }, 
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
+           { path: "/products/:id", component: ProductShowPage },
            { path: "/products-create", component: ProductsCreatePage },
            { path: "/cart", component: CartPage },
            { path: "/carts/:id", component: CartsPage }

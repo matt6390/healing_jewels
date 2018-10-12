@@ -96,8 +96,10 @@
       </div>
       <div class="row">
         <div v-for="product in products" class="col-md-4">
-          <div class="card">
-            <img class="card-img" height="200" width="200" v-bind:src='product.download_url'></img>
+          <div class="card" v-bind:href="'#/products/' + product.id">
+            <a v-bind:href="'#/products/' + product.id">
+              <img class="card-img" height="200" width="200" v-bind:src='product.download_url'></img>
+            </a>
             <p class="card-text"> {{ product }}</p>
             <h4 class="product-name">Name: {{ product.name }}</h4>
             <p class="product-description">{{ product.description }}</p>
@@ -150,6 +152,13 @@
 <template id="carts-page">
   <div class="vue-component">
     <h3>{{ message }}</h3>
+  </div>
+</template>
+
+<template id="product-show-page">
+  <div class="vue-component">
+    <h3>{{ message }}</h3>
+    <button v-on:click="addToCart()">Add to Cart</button>
   </div>
 </template>
 
