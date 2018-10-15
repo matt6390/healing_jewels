@@ -122,60 +122,6 @@ var ProductsCreatePage = {
           }.bind(this));
         });
       });
-
-
-
-
-
-
-
-
-
-
-
-
-
-      // var storageRef = firebase.storage().ref().child(pictureFile.name);
-
-
-
-
-      // storageRef.put(pictureFile).on('state_changed', function(snapshot) {
-      //   //this is used to display the upload progress of the image
-      //   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //   console.log('Upload is ' + progress + '% done');
-      //   switch (snapshot.state) {
-      //   case firebase.storage.TaskState.PAUSED: // or 'paused'
-      //     console.log('Upload is paused');
-      //     break;
-      //   case firebase.storage.TaskState.RUNNING: // or 'running'
-      //     // console.log('Upload is running');
-      //     break;
-      //   }
-      // });
-      // //must save the download URL outside of this little function
-      // storageRef.getDownloadURL().then(function(downloadURL) {
-        
-      //   //create the url in the database
-      //   var params = {link: downloadURL};
-      //   axios.post("/urls", params).then(function(response) {
-      //     //the link is stored as a URL item in the database
-      //     this.picURL = response.data.link;
-      //     //now changing the pic in the preview window so you know you picked the right one
-      //     var previewPic = document.getElementById('previewPic');
-      //     previewPic.src = this.picURL;
-      //     console.log('Actual Pic Link: ' + this.picURL); //the one returned when url was saved
-      //   });
-      // }).then(function() {
-      //   console.log('then');
-      //   //retrieve the URL from the database since we are now outside of the Snapshot functions
-      //   axios.get("/urls").then(function(response) {
-      //     //set the link for us to access now
-      //     this.picURL = response.data.link;
-      //     console.log("Retrieved from database: " + this.picURL);
-      //   }.bind(this));
-      // });
-
     },
     createProduct: function() { //creates the product in the database
       //grabs the url for the picture that was stored in readURL above
@@ -240,10 +186,14 @@ var CartsPage = {
   data: function() {
     return {
       message: "Welcome to Your Cart!",
+      cart: [],
       uid: this.$route.params.id
-    };
+    }; 
   },
   created: function() {
+    axios.get("/carts/" + this.uid).then(function(response) {
+      this.cart = response.data.carted_products;
+    }.bind(this));
   },
   methods: {},
   computed: {}
@@ -261,7 +211,7 @@ var ProductShowPage = {
   methods: {
     addToCart: function() {
       //create the initial params outside of the firebase function, otherwise you cant access the returned data from Vue.js
-      var params = {product_id: this.productId};
+      var params = {product_id: this.productId, amount: 1};
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {  //if logged in
           var uid = user.uid;
@@ -271,7 +221,16 @@ var ProductShowPage = {
             params['cart_id'] = response.data.id;
             // creates the carted_product
             axios.post('/carted_products', params).then(function(response) {
-              console.log(response.data);
+              console.log("Added To Cart");
+            }).catch(function(errors) { //if a cartedProduct already exists, then the page will just update the product
+              console.log("CartedProduct Already Exists");
+              //this is the update function
+              axios.patch('/carted_products/' + params['product_id'], params).then(function(response) {
+                console.log("Updated CartedProduct");
+              }).catch(function(errors) {
+                // prints any errors to console
+                console.log(errors.response.data.error);
+              });
             });
           }.bind(this));
         } else { //redirect to the signin page if you are not already logged in
