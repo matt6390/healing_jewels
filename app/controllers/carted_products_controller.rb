@@ -30,7 +30,10 @@ class CartedProductsController < ApplicationController
     @carted_product.product_id = params[:product_id] || @carted_product.product_id
     @carted_product.amount = params[:amount] || @carted_product.amount
 
-    if @carted_product.save
+
+    if @carted_product.amount == 0
+      @carted_product.destroy
+    elsif @carted_product.save
      render json: @carted_product.as_json
     else
       render json: {errors: @carted_product.errors.full_messages}, status: :unprocessable_entity
