@@ -193,9 +193,39 @@ var CartsPage = {
   created: function() {
     axios.get("/carts/" + this.uid).then(function(response) {
       this.cart = response.data.carted_products;
+
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    removeFromCart: function(amount, id) {
+      var params = {amount: amount};
+      axios.patch("/carted_products/" + id, params).then(function(response) {
+        // console.log(response.data);
+        location.reload();
+      }).catch(function(errors) {
+        errors = errors.response.data.error;
+        console.log(errors);
+      }.bind(this));
+
+      console.log("amount: " + amount);
+      console.log("id: " + id);
+    },
+    changeCartedAmount: function(product) {
+      // set the values to update, and get the Id of the product
+      var id = product.id;
+      var params = {amount: document.getElementById('cartedProduct' + id).value};
+      // update the carted product, if the amount is 0, it will be deleted
+      axios.patch("/carted_products/" + id, params).then(function(response) {
+        response = response.data;
+        console.log(response);
+        location.reload();
+      }).catch(function(errors) { //sends out the errors if there are errors
+        errors = errors.response.data.error;
+        console.log(errors);
+      }.bind(this));
+      console.log(params);
+    }
+  },
   computed: {}
 };
 var ProductShowPage = {

@@ -5,7 +5,7 @@ class CartedProductsController < ApplicationController
   end
 
   def show
-    @carted_product = CartedProduct.find()
+    # for if I ever need the show function
   end
 
   def create
@@ -24,15 +24,16 @@ class CartedProductsController < ApplicationController
   def update
     #updates will happen when a Product is added or 1 of multiple items is removed from the cart
     #Like if you accidentally said 2, but really just want 1
-    @carted_product = CartedProduct.find_by(cart_id: params[:cart_id], product_id: params[:product_id])
+    @carted_product = CartedProduct.find(params[:id]) || CartedProduct.find_by(cart_id: params[:cart_id], product_id: params[:product_id])
 
     @carted_product.cart_id = params[:cart_id] || @carted_product.cart_id
     @carted_product.product_id = params[:product_id] || @carted_product.product_id
     @carted_product.amount = params[:amount] || @carted_product.amount
 
-
+    # When viewing a product in the cart, setting its amount to zero will remove the product from your cart altogether. This is done throughthe update function automatically, rather than have to call the "delete" function
     if @carted_product.amount == 0
       @carted_product.destroy
+      render json: {message: "Removed From Cart"}
     elsif @carted_product.save
      render json: @carted_product.as_json
     else

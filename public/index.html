@@ -152,13 +152,12 @@
   <div class="vue-component">
     <h3>{{ message }}</h3>
     <div class="row">
-      <div v-for="product in cart">
-        <p>{{ product }}</p>
-       <!--  <ul>
-          <li>{{ product.description }}</li>
-          <li>{{ product.price }}</li>
-          <li>{{ product.download_url }}</li>
-        </ul> -->
+      <div v-for="cartedProduct in cart">
+        <p>{{ cartedProduct }}</p>
+        <label>Amount: </label>
+        <input v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount">
+        <button v-on:click="changeCartedAmount(cartedProduct)">Update Product</button>
+        <button v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button>
       </div>
     </div>
   </div>
