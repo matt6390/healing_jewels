@@ -181,6 +181,7 @@ var CartPage = {
   methods: {  },
   computed: {}
 };
+
 var CartsPage = {
   template: "#carts-page",
   data: function() {
@@ -228,6 +229,7 @@ var CartsPage = {
   },
   computed: {}
 };
+
 var ProductShowPage = {
   template: "#product-show-page",
   data: function() {
@@ -273,12 +275,25 @@ var ProductShowPage = {
   computed: {}
 };
 
+var ProductNecklacePage = {
+  template: "#product-necklace-page",
+  data: function() {
+    return {
+    };
+  },
+  created: function() {
+  },
+  methods: {  },
+  computed: {}
+};
+
 var router = new VueRouter({
   routes: [
            { path: "/signin", component: SignInPage }, 
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
            { path: "/products/:id", component: ProductShowPage },
+           { path: "/products/?search=necklace", component: ProductNecklacePage },
            { path: "/products-create", component: ProductsCreatePage },
            { path: "/cart", component: CartPage },
            { path: "/carts/:id", component: CartsPage }
