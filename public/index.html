@@ -64,11 +64,12 @@
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script%7CLato:300,400,700" rel="stylesheet">
   <link href="css/bootstrap-dark.css" rel="stylesheet">
   <link id="pagestyle" href="css/theme-dark.css" rel="stylesheet">
-  <link id="pagestyle" href="css/bootstrap-dark.css.map" rel="stylesheet">
   <link rel="stylesheet" type="text/js" href="js/bundle.js">
   <link rel="stylesheet" type="text/js" href="js/main.js">
   <link rel="stylesheet" type="text/js" href="js/tt-cart.js">
   <!-- Vue/Bootstrap scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
@@ -78,15 +79,28 @@
   <div id="vue-app">
     <!-- Header -->
     <header>
-      <div class="col-md-12">
-        <h1 href='/#'>Healing Jewels</h1>
-        <ul class="nav nav-pills">
-          <li role="presentation" class="active"> <a href="#/signin">Sign In</a> </li>
-          <li role="presentation"> <a href="#/products">Return to Home Page</a> </li>
-          <li role="presentation"> <a href="#/signout">Sign Out</a>  </li>
-          <li role="presentation"> <a href="#/cart">Cart</a>  </li>
-        </ul>
-      </div>
+      <nav class="navbar navbar-fixed-top shadow" id="js-nav">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-target="#myNavbar" data-toggle="collapse" aria-expanded="false">
+              <span class="icon-bar"></span> 
+              <span class="icon-bar"></span> 
+              <span class="icon-bar"></span>
+            </button>
+            
+            <a class="navbar-brand" href="#"> <img src="img/logo-white.png" alt="logo"> </a>
+          </div>
+          <div class="navbar-collapse collapse" id="myNavbar" aria-expanded="false" style="height: 1px;">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#home">home</a></li>
+              <li> <a href="#/signin">Sign In</a> </li>
+              <li> <a href="#/products">Return to Home Page</a> </li>
+              <li> <a href="#/signout">Sign Out</a>  </li>
+              <li> <a href="#/cart">Cart</a>  </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
 
     <router-view :key="$route.fullPath"></router-view >
@@ -142,9 +156,32 @@
 
 <template id="home-page">
   <div class="vue-component">
-    <div class="container">
-      <h4>{{ message }}</h4>
+    <div class="container section home image-slider">
+      <div class="col-md-12">
+        <h3 class="section-heading">Featured Products</h3>
+        <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" class="active"></li>
+            <li data-target="#carousel-example-generic" class=""></li>
+            <li data-target="#carousel-example-generic" class=""></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="item active"> <img alt="First slide [900x500]" src="img/ring.png" data-holder-rendered="true"> <div class="carousel-caption">
+              <div class="jumbotron" style="opacity: 0.5">
+                <p>something</p>
+              </div>
+            </div> </div>
+            <div class="item"> <img alt="Second slide [900x500]" data-src="holder.js/900x500/auto/#666:#444/text:Second slide" src="img/necklace.png" data-holder-rendered="true"> </div>
+            <div class="item"> <img alt="Third slide [900x500]" src="img/braclet.png" data-holder-rendered="true"> </div>
+          </div>
+          <a href="#carousel-example-generic" class="left carousel-control" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+          <a href="#carousel-example-generic" class="right carousel-control" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
+        </div>
+      </div>
+
     </div>
+
+  
   </div>
 </template>
 
