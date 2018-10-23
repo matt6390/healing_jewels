@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My App</title>
+  <title>Healing Jewels</title>
+  <!-- Firebase Scripts for Authentication and Picture Storage -->
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
@@ -20,6 +21,10 @@
     firebase.initializeApp(config);
   </script>
   <script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>
+
+  
+
+  <!--  -->
       <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.css" />
       <script type="text/javascript">
         // FirebaseUI config.
@@ -50,6 +55,20 @@
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
       </script>
+  <!-- Bootstrap Choco Scripts -->
+  <meta content="" name="description">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="width=device-width" name="viewport">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <link href="img/favicon.png" rel="icon" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script%7CLato:300,400,700" rel="stylesheet">
+  <link href="css/bootstrap-dark.css" rel="stylesheet">
+  <link id="pagestyle" href="css/theme-dark.css" rel="stylesheet">
+  <link id="pagestyle" href="css/bootstrap-dark.css.map" rel="stylesheet">
+  <link rel="stylesheet" type="text/js" href="js/bundle.js">
+  <link rel="stylesheet" type="text/js" href="js/main.js">
+  <link rel="stylesheet" type="text/js" href="js/tt-cart.js">
+  <!-- Vue/Bootstrap scripts -->
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
@@ -57,32 +76,83 @@
 </head>
 <body>
   <div id="vue-app">
-    <button>
-      <a href="#/signin">Sign In</a> 
-    </button>
-    <button>
-      <a href="#/products">Return to Home Page</a>
-    </button>
-    <button>
-      <a href="#/signout">Sign Out</a> 
-    </button>
-    <button>
-      <a href="#/cart">Cart</a> 
-    </button>
+    <!-- Header -->
+    <header>
+      <div class="col-md-12">
+        <h1 href='/#'>Healing Jewels</h1>
+        <ul class="nav nav-pills">
+          <li role="presentation" class="active"> <a href="#/signin">Sign In</a> </li>
+          <li role="presentation"> <a href="#/products">Return to Home Page</a> </li>
+          <li role="presentation"> <a href="#/signout">Sign Out</a>  </li>
+          <li role="presentation"> <a href="#/cart">Cart</a>  </li>
+        </ul>
+      </div>
+    </header>
 
     <router-view :key="$route.fullPath"></router-view >
 
-  
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-md-push-4 text-center"> <img class="footer-logo" src="img/logo-white.png" alt="footer-logo">
+                <div class="social">
+                  <ul>
+                    <li><a href="https://www.facebook.com/julie.b.dynek" target="_blank"><span class="ti-facebook"></span></a></li>
+                    <li><a href="https://twitter.com/" target="_blank"><span class="ti-twitter-alt"></span></a></li>
+                    <li><a href="http://linkedin.com/in/matthew-stone-dev" target="_blank"><span class="ti-linkedin"></span></a></li>
+                    <li><a href="https://vimeo.com/" target="_blank"><span class="ti-vimeo-alt"></span></a></li>
+                    <li><a href="http://youtube.com/" target="_blank"><span class="ti-youtube"></span></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-md-offset-4 col-sm-12">
+                <div class="footer-newsletter">
+                  <div class="center text-center">
+                    <h4>Enter your email here for a surprise!</h4>
+                    <form action="#" method="post">
+                      <div class="input-group">
+                        <input class="form-control" type="text" placeholder="e-mail"> 
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" type="button"><span class="ti-arrow-right"></span></button>
+                        </span>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+
   </div>
 </body>
 
 </html>
 
+<template id="home-page">
+  <div class="vue-component">
+    <div class="container">
+      <h4>{{ message }}</h4>
+    </div>
+  </div>
+</template>
+
 <template id="sign-in-page">
   <div class="vue-component">
 
-    <h1>{{ message }}</h1>
-    <h4>{{ user }}</h4>
+    <!-- <h1>{{ message }}</h1> -->
+    <!-- <h4>{{ user }}</h4> -->
     <div id="firebaseui-auth-container"></div>
 
   </div>
@@ -114,32 +184,39 @@
 
 <template id="products-create-page">
   <div class="vue-component">
-    <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
-    <form>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" v-model="name">
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" name="description" v-model="description">
-      </div>
-      <div class="form-group">
-        <label>Price</label>
-        <input type="integer" name="price" v-model="price">
-      </div>
-      <div class="form-group">
-        <label>Picture</label>
-        <input id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
-      </div>
-      <ul>
-        <li v-for="error in errors" style="color:red"> {{ error }}</li>
-      </ul>
-      <button type="button">
-        <a v-on:click="createProduct()">Add New Product</a>
-      </button>
-      <input type="reset">
-    </form>
+    <div class="row">
+      <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
+    </div>
+    <div class="row">
+      <form class="col-md-4">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" v-model="name">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" name="description" v-model="description">
+        </div>
+        <div class="form-group">
+          <label>Price</label>
+          <input type="integer" name="price" v-model="price">
+        </div>
+        <div class="form-group">
+          <label>Picture</label>
+          <input id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
+        </div>
+        <div class="progress">
+          <div class="progress-bar" id="picProgressBar" role="progressbar" style="width:100%"> 60% </div>
+        </div>
+        <ul>
+          <li v-for="error in errors" style="color:red"> {{ error }}</li>
+        </ul>
+        <button class="button btn-primary" type="button">
+          <a v-on:click="createProduct()">Add New Product</a>
+        </button>
+        <input class="button btn-primary" type="reset">
+      </form>
+    </div>
   </div>
 </template>
 

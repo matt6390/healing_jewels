@@ -99,6 +99,8 @@ var ProductsCreatePage = {
         //this is used to display the upload progress of the image
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log('Upload is ' + progress + '% done');
+        document.getElementById('picProgressBar').style.width = progress + "%";
+        document.getElementById('picProgressBar').innerHTML = progress.toFixed(2) + "%";
         switch (snapshot.state) {
         case firebase.storage.TaskState.PAUSED: // or 'paused'
           console.log('Upload is paused');
@@ -275,8 +277,8 @@ var ProductShowPage = {
   computed: {}
 };
 
-var ProductNecklacePage = {
-  template: "#product-necklace-page",
+var ProductSearchPage = {
+  template: "#product-search-page",
   data: function() {
     return {
     };
@@ -287,13 +289,27 @@ var ProductNecklacePage = {
   computed: {}
 };
 
+var HomePage = {
+  template: "#home-page",
+  data: function() {
+    return {
+      message: 'Welcome to the Home page'
+    };
+  },
+  created: function() {
+  },
+  methods: {  },
+  computed: {}
+};
+
 var router = new VueRouter({
   routes: [
+           { path: "/", component: HomePage }, 
            { path: "/signin", component: SignInPage }, 
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
            { path: "/products/:id", component: ProductShowPage },
-           { path: "/products/?search=necklace", component: ProductNecklacePage },
+           { path: "/products/search", component: ProductSearchPage },
            { path: "/products-create", component: ProductsCreatePage },
            { path: "/cart", component: CartPage },
            { path: "/carts/:id", component: CartsPage }
