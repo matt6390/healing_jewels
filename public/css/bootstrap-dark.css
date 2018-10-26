@@ -1330,6 +1330,10 @@ a.bg-info:hover,
 a.bg-info:focus {
   background-color: #afd9ee; }
 
+.bg-black{
+  background-color: #141414; 
+}
+
 .bg-warning {
   background-color: #fcf8e3; }
 

@@ -63,6 +63,7 @@
   <link href="img/favicon.png" rel="icon" type="image/png">
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script%7CLato:300,400,700" rel="stylesheet">
   <link href="css/bootstrap-dark.css" rel="stylesheet">
+  <link href="css/theme-dark.css" rel="stylesheet">
   <link id="pagestyle" href="css/theme-dark.css" rel="stylesheet">
   <link rel="stylesheet" type="text/js" href="js/bundle.js">
   <link rel="stylesheet" type="text/js" href="js/main.js">
@@ -74,33 +75,37 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="index.js" defer></script>
+  <!-- <script src="css/index.css" defer></script> -->
+  <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
   <div id="vue-app">
     <!-- Header -->
     <header>
-      <nav class="navbar navbar-fixed-top shadow" id="js-nav">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-target="#myNavbar" data-toggle="collapse" aria-expanded="false">
-              <span class="icon-bar"></span> 
-              <span class="icon-bar"></span> 
-              <span class="icon-bar"></span>
-            </button>
-            
-            <a class="navbar-brand" href="#"> <img src="img/logo-white.png" alt="logo"> </a>
+      <div>
+        <nav class="navbar navbar-fixed-top shadow" id="js-nav">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-target="#myNavbar" data-toggle="collapse" aria-expanded="false">
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="#"> <img src="img/logo-white.png" alt="logo"> </a>
+            </div>
+            <div class="navbar-collapse collapse" id="myNavbar" aria-expanded="false" style="height: 1px;">
+              <ul class="nav navbar-nav">
+                <li data-target="#myNavbar" data-toggle="collapse" class="active"><a href="">home</a></li>
+                <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/signin">Sign In</a> </li>
+                <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/products">Return to Home Page</a> </li>
+                <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/signout">Sign Out</a>  </li>
+                <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/cart">Cart</a>  </li>
+              </ul>
+            </div>
           </div>
-          <div class="navbar-collapse collapse" id="myNavbar" aria-expanded="false" style="height: 1px;">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#home">home</a></li>
-              <li> <a href="#/signin">Sign In</a> </li>
-              <li> <a href="#/products">Return to Home Page</a> </li>
-              <li> <a href="#/signout">Sign Out</a>  </li>
-              <li> <a href="#/cart">Cart</a>  </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
 
     <router-view :key="$route.fullPath"></router-view >
@@ -156,7 +161,7 @@
 
 <template id="home-page">
   <div class="vue-component">
-    <div class="container section home image-slider">
+    <section class="section home image-slider">
       <div class="col-md-12">
         <h3 class="section-heading">Featured Products</h3>
         <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
@@ -168,7 +173,7 @@
           <div class="carousel-inner" role="listbox">
             <div class="item active"> <img alt="First slide [900x500]" src="img/ring.png" data-holder-rendered="true"> <div class="carousel-caption">
               <div class="jumbotron" style="opacity: 0.5">
-                <p>something</p>
+                <button class="button btn-primary">This is a demo button</button>
               </div>
             </div> </div>
             <div class="item"> <img alt="Second slide [900x500]" data-src="holder.js/900x500/auto/#666:#444/text:Second slide" src="img/necklace.png" data-holder-rendered="true"> </div>
@@ -178,9 +183,23 @@
           <a href="#carousel-example-generic" class="right carousel-control" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
         </div>
       </div>
+    </section>
 
-    </div>
+    <section class="section bg-black product">
+      <div class="container overflow-hidden">
+        <div class="row">
+          <h2 class="products-title">Products</h2>
+        </div>
+        <button v-on:click="shiftProductsLeft()" class="button btn-primary">Shift Left</button>
+        <button v-on:click="shiftProductsRight()" class="button btn-primary">Shift Right</button>
+        <div class="row">
+          <div v-for="product in featuredProducts" class="card col-md-4">
+            <h2>{{ product.name }}</h2>
+          </div>
+        </div>
 
+      </div>
+    </section>
   
   </div>
 </template>
@@ -221,39 +240,41 @@
 
 <template id="products-create-page">
   <div class="vue-component">
-    <div class="row">
-      <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
-    </div>
-    <div class="row">
-      <form class="col-md-4">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" v-model="name">
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <input type="text" name="description" v-model="description">
-        </div>
-        <div class="form-group">
-          <label>Price</label>
-          <input type="integer" name="price" v-model="price">
-        </div>
-        <div class="form-group">
-          <label>Picture</label>
-          <input id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
-        </div>
-        <div class="progress">
-          <div class="progress-bar" id="picProgressBar" role="progressbar" style="width:100%"> 60% </div>
-        </div>
-        <ul>
-          <li v-for="error in errors" style="color:red"> {{ error }}</li>
-        </ul>
-        <button class="button btn-primary" type="button">
-          <a v-on:click="createProduct()">Add New Product</a>
-        </button>
-        <input class="button btn-primary" type="reset">
-      </form>
-    </div>
+    <section class="section" >
+      <div class="row">
+        <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
+      </div>
+      <div class="row">
+        <form class="col-md-4">
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" placeholder="Name" type="text" v-model="name">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" type="text" placeholder="description" name="description" v-model="description">
+          </div>
+          <div class="form-group">
+            <label>Price</label>
+            <input class="form-control" type="integer" name="price" v-model="price">
+          </div>
+          <div class="form-group">
+            <label>Picture</label>
+            <input class="form-control" id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped" id="picProgressBar" role="progressbar" style="width:0%"></div>
+          </div>
+          <ul>
+            <li v-for="error in errors" style="color:red"> {{ error }}</li>
+          </ul>
+          <button class="button btn-primary" type="button">
+            <a v-on:click="createProduct()">Add New Product</a>
+          </button>
+          <input class="button btn-primary" type="reset">
+        </form>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -264,16 +285,19 @@
 
 <template id="carts-page">
   <div class="vue-component">
-    <h3>{{ message }}</h3>
-    <div class="row">
-      <div v-for="cartedProduct in cart">
-        <p>{{ cartedProduct }}</p>
-        <label>Amount: </label>
-        <input v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount">
-        <button v-on:click="changeCartedAmount(cartedProduct)">Update Product</button>
-        <button v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button>
+    <div class="section container">
+      
+      <div class="row">
+        <div v-for="cartedProduct in cart">
+          <p>{{ cartedProduct }}</p>
+          <label>Amount: </label>
+          <input v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount">
+          <button v-on:click="changeCartedAmount(cartedProduct)">Update Product</button>
+          <button v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button>
+        </div>
       </div>
     </div>
+    <h3>{{ message }}</h3>
   </div>
 </template>
 

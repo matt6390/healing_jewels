@@ -141,8 +141,11 @@ var ProductsCreatePage = {
           response = response.data;
           //remove the URL instance from the database
           axios.delete('/urls');
+          router.push("/#/products");
           //catches errors
         }).catch(function(errors) { 
+          // The product was not created, but the picture is still stored in Firebase, so I should come back to this at some point
+          this.errors.push("Product Not Created");
           this.errors = errors.response.data.errors;
           console.log(errors.response.data.errors);
         }.bind(this));
@@ -154,7 +157,8 @@ var ProductsCreatePage = {
 
     }
   },
-  computed: {}
+  computed: {
+  }
 };
 
 var CartPage = {
@@ -293,13 +297,61 @@ var HomePage = {
   template: "#home-page",
   data: function() {
     return {
-      message: 'Welcome to the Home page'
+      message: 'Welcome to the Home page',
+      products: [],
+      featuredProducts: [],
+      groups: [],
+      working: "not working"
     };
   },
   created: function() {
+    axios.get("/products").then(function(response) {
+      this.products = response.data;
+      for (var i = 0; i <= 2; i++) {
+        this.featuredProducts.push(this.products[i]);
+      }
+    }.bind(this));
   },
-  methods: {  },
-  computed: {}
+  methods: {
+    shiftProductsRight: function() {
+      var rightFeatured = this.featuredProducts[2] ;
+      var indexAtProducts = this.products.indexOf(rightFeatured);
+      var endOfProducts = this.products.length - 1;
+      // find if at the end of the list
+      if (indexAtProducts === endOfProducts) {
+        console.log('At the end');
+      }
+      else {
+        console.log(this.featuredProducts[2]);
+        this.featuredProducts[2] = this.products[indexAtProducts + 1];
+        // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
+        console.log(this.featuredProducts[2]);
+        this.featuredProducts[1] = this.products[indexAtProducts];
+        this.featuredProducts[0] = this.products[indexAtProducts - 1];
+        console.log('Not at the end yet');
+      }
+    },
+    shiftProductsLeft: function() {
+      var leftFeatured = this.featuredProducts[0] ;
+      var indexAtProducts = this.products.indexOf(leftFeatured);
+      var startOfProducts = 0;
+      // find if at the end of the list
+      if (indexAtProducts === startOfProducts) {
+        console.log('At the end');
+      }
+      else {
+        console.log(this.featuredProducts[2]);
+        this.featuredProducts[2] = this.products[indexAtProducts + 1];
+        // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
+        console.log(this.featuredProducts[2]);
+        this.featuredProducts[1] = this.products[indexAtProducts];
+        this.featuredProducts[0] = this.products[indexAtProducts - 1];
+        console.log('Not at the end yet');
+      }
+    }
+  },
+  computed: {
+  }
 };
 
 var router = new VueRouter({
