@@ -323,11 +323,17 @@ var HomePage = {
       }
       else {
         console.log(this.featuredProducts[2]);
-        this.featuredProducts[2] = this.products[indexAtProducts + 1];
+        this.featuredProducts.pop();
+        this.featuredProducts.pop();
+        this.featuredProducts.pop();
+        this.featuredProducts.push(this.products[indexAtProducts - 1]);
+        this.featuredProducts.push(this.products[indexAtProducts]);
+        this.featuredProducts.push(this.products[indexAtProducts + 1]);
+        // this.featuredProducts[2] = this.products[indexAtProducts + 1];
         // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
         console.log(this.featuredProducts[2]);
-        this.featuredProducts[1] = this.products[indexAtProducts];
-        this.featuredProducts[0] = this.products[indexAtProducts - 1];
+        // this.featuredProducts[1] = this.products[indexAtProducts];
+        // this.featuredProducts[0] = this.products[indexAtProducts - 1];
         console.log('Not at the end yet');
       }
     },
@@ -340,12 +346,19 @@ var HomePage = {
         console.log('At the end');
       }
       else {
-        console.log(this.featuredProducts[2]);
-        this.featuredProducts[2] = this.products[indexAtProducts + 1];
-        // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
-        console.log(this.featuredProducts[2]);
-        this.featuredProducts[1] = this.products[indexAtProducts];
-        this.featuredProducts[0] = this.products[indexAtProducts - 1];
+        this.featuredProducts.pop();
+        this.featuredProducts.pop();
+        this.featuredProducts.pop();
+        this.featuredProducts.push(this.products[indexAtProducts - 1]);
+        this.featuredProducts.push(this.products[indexAtProducts]);
+        this.featuredProducts.push(this.products[indexAtProducts + 1]);
+        
+        // console.log(this.featuredProducts[2]);
+        // this.featuredProducts[2] = this.products[indexAtProducts + 1];
+        // // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
+        // console.log(this.featuredProducts[2]);
+        // this.featuredProducts[1] = this.products[indexAtProducts];
+        // this.featuredProducts[0] = this.products[indexAtProducts - 1];
         console.log('Not at the end yet');
       }
     }
