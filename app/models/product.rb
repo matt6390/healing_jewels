@@ -6,6 +6,8 @@ class Product < ApplicationRecord
 
   has_many :carted_products
   has_many :carts, through: :carted_products
+  
+  enum category: [:necklace, :bracelet, :earring, :ring]
 
   def formatted_price
     sprintf("$%2.2f", price)

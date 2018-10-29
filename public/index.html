@@ -21,15 +21,11 @@
     firebase.initializeApp(config);
   </script>
   <script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>
-
-  
-
-  <!--  -->
-      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.css" />
-      <script type="text/javascript">
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.css" />
+  <script type="text/javascript">
         // FirebaseUI config.
         var uiConfig = {
-          signInSuccessUrl: '#/products',
+          signInSuccessUrl: '/#/',
           signInOptions: [
             // Leave the lines as is for the providers you want to offer your users.
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -54,7 +50,7 @@
         var ui = new firebaseui.auth.AuthUI(firebase.auth());
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
-      </script>
+  </script>
   <!-- Bootstrap Choco Scripts -->
   <meta content="" name="description">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -192,7 +188,7 @@
         </div>
         <div class="products-row">
           <div v-for="product in featuredProducts" class="card col-sm-4 col-md-4 col-lg-4">
-            <a href="">
+            <a v-bind:href="'/#/products/' + product.id" >
               <img class="center img-thumbnail" v-bind:src="product.download_url"></img>
             </a>
             <div class="row">
@@ -200,7 +196,7 @@
             </div>
             <div class="row">
               <p class="card-text text-center"> {{ product.description }}</p>
-              <p class="card-text feature-price text-center"> {{ product.price }}</p>
+              <p class="card-text text-center"> {{ product.price }}</p>
             </div>
           </div>
         </div>
@@ -256,7 +252,7 @@
             <div v-for="product in products" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div class="card" v-bind:href="'#/products/' + product.id">
                 <a v-bind:href="'#/products/' + product.id">
-                  <img class="card-img img-thumbnail" v-bind:src='product.download_url'></img>
+                  <img class="img-thumbnail" v-bind:src='product.download_url'></img>
                 </a>
                 <p class="card-text"> {{ product }}</p>
                 <h4 class="product-name">Name: {{ product.name }}</h4>
