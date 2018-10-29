@@ -11,12 +11,12 @@
   <script>
     // Initialize Firebase
     var config = {
-      apiKey: "AIzaSyBkrVTdbWz7-l9Xbi6wxCp4NRh2b-GJ11E",
-      authDomain: "healing-jewels.firebaseapp.com",
-      databaseURL: "https://healing-jewels.firebaseio.com",
-      projectId: "healing-jewels",
-      storageBucket: "healing-jewels.appspot.com",
-      messagingSenderId: "551917582813"
+      apiKey: "AIzaSyCA5LlFy9ebtEB9AsDnF9e5l5PnlE4HIeU",
+      authDomain: "healing-jewels-1.firebaseapp.com",
+      databaseURL: "https://healing-jewels-1.firebaseio.com",
+      projectId: "healing-jewels-1",
+      storageBucket: "healing-jewels-1.appspot.com",
+      messagingSenderId: "698156961489"
     };
     firebase.initializeApp(config);
   </script>
@@ -299,7 +299,7 @@
               <li v-for="error in errors" style="color:red"> {{ error }}</li>
             </ul>
             <button class="button btn-primary" type="button">
-              <a href="/#/products" v-on:click="createProduct()">Add New Product</a>
+              <a v-on:click="createProduct()">Add New Product</a>
             </button>
             <input class="button btn-primary" type="reset">
           </form>

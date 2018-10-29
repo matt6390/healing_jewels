@@ -2,6 +2,7 @@
   "name": "healing_jewels",
   "private": true,
   "dependencies": {
-    "animate.css": "^3.7.0"
+    "animate.css": "^3.7.0",
+    "firebase-tools": "^6.0.0"
   }
 }
