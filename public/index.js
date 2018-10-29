@@ -140,7 +140,7 @@ var ProductsCreatePage = {
           response = response.data;
           //remove the URL instance from the database
           axios.delete('/urls');
-          router.push("/#/products");
+          router.push("/products");
           //catches errors
         }).catch(function(errors) { 
           // The product was not created, but the picture is still stored in Firebase, so I should come back to this at some point

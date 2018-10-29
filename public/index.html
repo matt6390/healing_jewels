@@ -193,14 +193,14 @@
         <div class="products-row">
           <div v-for="product in featuredProducts" class="card col-sm-4 col-md-4 col-lg-4">
             <a href="">
-              <img class="card-img img-thumbnail" v-bind:src="product.download_url"></img>
+              <img class="center img-thumbnail" v-bind:src="product.download_url"></img>
             </a>
             <div class="row">
               <h2 class="card-title">{{ product.name }}</h2>
             </div>
             <div class="row">
               <p class="card-text text-center"> {{ product.description }}</p>
-              <p class="card-text text-center"> {{ product.price }}</p>
+              <p class="card-text feature-price text-center"> {{ product.price }}</p>
             </div>
           </div>
         </div>
@@ -221,14 +221,14 @@
 </template>
 
 <template id="sign-in-page">
-  <section class="section">
-    <div class="vue-component">
+  <div class="vue-component">
+    <section class="section">
 
       <!-- <h1>{{ message }}</h1> -->
       <!-- <h4>{{ user }}</h4> -->
       <div id="firebaseui-auth-container"></div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <template id="products-page">
@@ -271,8 +271,8 @@
 </template>
 
 <template id="products-create-page">
-  <section class="section">
-    <div class="vue-component">
+  <div class="vue-component">
+    <section class="section">
       <div class="container">
         <div class="row">
           <form class="col-md-4">
@@ -308,17 +308,17 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <template id="product-show-page">
-  <section class="section">
-    <div class="vue-component">
+  <div class="vue-component">
+    <section class="section">
       <h3>{{ message }}</h3>
       <button v-on:click="addToCart()" class="button btn-primary">Add to Cart</button>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <template id="cart-page">
@@ -327,8 +327,8 @@
 </template>
 
 <template id="carts-page">
-  <section class="section">
-    <div class="vue-component">
+  <div class="vue-component">
+    <section class="section">
       <div class="section container">
         <div class="row">
           <div v-for="cartedProduct in cart">
@@ -340,17 +340,17 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <template id="sign-out-page">
-  <section class="section">
-    <div class="vue-component">
+  <div class="vue-component">
+    <section class="section">
 
       <h1>{{ message }}</h1>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 

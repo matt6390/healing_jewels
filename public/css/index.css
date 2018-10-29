@@ -13,6 +13,23 @@ section {
 .ftr-btn{
   float: right;
 }
+.feature-price{
+   /*display: inline-block;*/
+   /*float: right;*/
+   /*opacity: 0.8;*/
+   background: #B69751; 
+   /*border-radius: 5px;*/
+   /*padding: 3.75px 7.5px;*/
+   /*font-size: 10px;*/
+   /*color: #fff; */
+ }
+
+.center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 200px;
+}
 
 .row-border-btm {
   border-bottom: 5px;
