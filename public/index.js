@@ -88,7 +88,6 @@ var ProductsCreatePage = {
   methods: {
 
     readURL: function() { //this function will upload a picture, and provide a download link to be used later
-      console.log('Starting function');
       var pictureFile = document.getElementById("productPicture").files[0];
       //contact the firebase storage server
       var ref = firebase.storage().ref();

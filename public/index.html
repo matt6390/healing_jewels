@@ -246,7 +246,7 @@
         <div class="row">
           <div class="col-md-2">
             <div class="widget widget-category shadow">
-              <h5>something</h5>
+              <h5>Categories</h5>
               <ul>
                 <li><a><p>First Search Catergory<span class="widget-category-number">220</span></p></a></li>
               </ul>
@@ -271,43 +271,45 @@
 </template>
 
 <template id="products-create-page">
-  <div class="vue-component">
-    <section class="section" >
-      <div class="row">
-        <img id='previewPic' height="200" width="200" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
+  <section class="section">
+    <div class="vue-component">
+      <div class="container">
+        <div class="row">
+          <form class="col-md-4">
+            <div class="form-group">
+              <label>Name</label>
+              <input class="form-control" placeholder="Name" type="text" v-model="name">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input class="form-control" type="text" placeholder="description" name="description" v-model="description">
+            </div>
+            <div class="form-group">
+              <label>Price</label>
+              <input class="form-control" type="integer" name="price" v-model="price">
+            </div>
+            <div class="form-group">
+              <label>Picture</label>
+              <input class="form-control" id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped" id="picProgressBar" role="progressbar" style="width:0%"></div>
+            </div>
+            <ul>
+              <li v-for="error in errors" style="color:red"> {{ error }}</li>
+            </ul>
+            <button class="button btn-primary" type="button">
+              <a href="/#/products" v-on:click="createProduct()">Add New Product</a>
+            </button>
+            <input class="button btn-primary" type="reset">
+          </form>
+          <div class="col-md-6">
+            <img id='previewPic' class="preview-img img-thumbnail" src="https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png">
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <form class="col-md-4">
-          <div class="form-group">
-            <label>Name</label>
-            <input class="form-control" placeholder="Name" type="text" v-model="name">
-          </div>
-          <div class="form-group">
-            <label>Description</label>
-            <input class="form-control" type="text" placeholder="description" name="description" v-model="description">
-          </div>
-          <div class="form-group">
-            <label>Price</label>
-            <input class="form-control" type="integer" name="price" v-model="price">
-          </div>
-          <div class="form-group">
-            <label>Picture</label>
-            <input class="form-control" id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
-          </div>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped" id="picProgressBar" role="progressbar" style="width:0%"></div>
-          </div>
-          <ul>
-            <li v-for="error in errors" style="color:red"> {{ error }}</li>
-          </ul>
-          <button class="button btn-primary" type="button">
-            <a v-on:click="createProduct()">Add New Product</a>
-          </button>
-          <input class="button btn-primary" type="reset">
-        </form>
-      </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <template id="product-show-page">
