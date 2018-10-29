@@ -134,7 +134,7 @@ var ProductsCreatePage = {
           name: this.name,
           description: this.description,
           price: this.price,
-          category: parseInt(this.category, 10),
+          category: parseInt(this.category, 10), //change the value from a string to an Integer
           download_url: link
         };
         //create the 'product' in the database
