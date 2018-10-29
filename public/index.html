@@ -278,11 +278,20 @@
             </div>
             <div class="form-group">
               <label>Description</label>
-              <input class="form-control" type="text" placeholder="description" name="description" v-model="description">
+              <input class="form-control" type="text" placeholder="Description" name="description" v-model="description">
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <div class="category">
+                <input type="radio" name="category" v-model="category" value="0">  Necklace </input>
+                <input type="radio" name="category" v-model="category" value="1">  Bracelet </input>
+                <input type="radio" name="category" v-model="category" value="2">  Earring </input>
+                <input type="radio" name="category" v-model="category" value="3">  Ring </input>
+              </div>
             </div>
             <div class="form-group">
               <label>Price</label>
-              <input class="form-control" type="integer" name="price" v-model="price">
+              <input class="form-control" type="integer" placeholder="Expensive :)" name="price" v-model="price">
             </div>
             <div class="form-group">
               <label>Picture</label>

@@ -78,6 +78,7 @@ var ProductsCreatePage = {
       description: "",
       uploadProgress: "",
       price: "",
+      category: "",
       errors: []
     };
   },
@@ -133,6 +134,7 @@ var ProductsCreatePage = {
           name: this.name,
           description: this.description,
           price: this.price,
+          category: parseInt(this.category, 10),
           download_url: link
         };
         //create the 'product' in the database

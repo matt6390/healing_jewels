@@ -27,7 +27,8 @@ class ProductsController < ApplicationController
                             name: params[:name],
                             description: params[:description],
                             price: params[:price],
-                            download_url: params[:download_url]
+                            download_url: params[:download_url],
+                            category: params[:category]
                           )
     if @product.save 
      render 'show.json.jbuilder'
