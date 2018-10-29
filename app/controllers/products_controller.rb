@@ -2,7 +2,6 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all
 
-
     search_term = params[:search]
     if search_term
       @products = @products.where("name iLike ?", "%#{search_term}%")
@@ -13,7 +12,7 @@ class ProductsController < ApplicationController
       @products = @products.order(sort_attribute => :asc)
     end
 
-    render json: @products.as_json
+    render 'index.json.jbuilder'
 
   end
 

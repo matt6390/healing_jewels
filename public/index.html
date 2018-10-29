@@ -64,18 +64,18 @@
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script%7CLato:300,400,700" rel="stylesheet">
   <link href="css/bootstrap-dark.css" rel="stylesheet">
   <link href="css/theme-dark.css" rel="stylesheet">
-  <link id="pagestyle" href="css/theme-dark.css" rel="stylesheet">
+  <!-- <link id="pagestyle" href="css/theme-dark.css" rel="stylesheet"> -->
   <link rel="stylesheet" type="text/js" href="js/bundle.js">
   <link rel="stylesheet" type="text/js" href="js/main.js">
   <link rel="stylesheet" type="text/js" href="js/tt-cart.js">
   <!-- Vue/Bootstrap scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="index.js" defer></script>
-  <!-- <script src="css/index.css" defer></script> -->
   <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
@@ -190,11 +190,27 @@
         <div class="row">
           <h2 class="products-title">Products</h2>
         </div>
-        <button v-on:click="shiftProductsLeft()" class="button btn-primary">Shift Left</button>
-        <button v-on:click="shiftProductsRight()" class="button btn-primary">Shift Right</button>
+        <div class="products-row">
+          <div v-for="product in featuredProducts" class="card col-sm-4 col-md-4 col-lg-4">
+            <a href="">
+              <img class="card-img img-thumbnail" v-bind:src="product.download_url"></img>
+            </a>
+            <div class="row">
+              <h2 class="card-title">{{ product.name }}</h2>
+            </div>
+            <div class="row">
+              <p class="card-text text-center"> {{ product.description }}</p>
+              <p class="card-text text-center"> {{ product.price }}</p>
+            </div>
+          </div>
+        </div>
         <div class="row">
-          <div v-for="product in featuredProducts" class="card col-md-4">
-            <h2>{{ product.name }}</h2>
+          <div class="col-md-4">
+            <button v-on:click="shiftProductsLeft()" class="ftr-btn button btn-primary float-right"><span class="ti-angle-double-left"></span></button>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button v-on:click="shiftProductsRight()" class="button btn-primary"><span class="ti-angle-double-right"></span></button>
           </div>
         </div>
 
@@ -205,37 +221,53 @@
 </template>
 
 <template id="sign-in-page">
-  <div class="vue-component">
+  <section class="section">
+    <div class="vue-component">
 
-    <!-- <h1>{{ message }}</h1> -->
-    <!-- <h4>{{ user }}</h4> -->
-    <div id="firebaseui-auth-container"></div>
-
-  </div>
+      <!-- <h1>{{ message }}</h1> -->
+      <!-- <h4>{{ user }}</h4> -->
+      <div id="firebaseui-auth-container"></div>
+    </div>
+  </section>
 </template>
 
 <template id="products-page">
-  <div class="vue-component">
-    <div class="container">
-      <div class="row">
-        <a href="#/products-create">Add New Product</a>        
-      </div>
-      <div class="row">
-        <div v-for="product in products" class="col-md-4">
-          <div class="card" v-bind:href="'#/products/' + product.id">
-            <a v-bind:href="'#/products/' + product.id">
-              <img class="card-img" height="200" width="200" v-bind:src='product.download_url'></img>
-            </a>
-            <p class="card-text"> {{ product }}</p>
-            <h4 class="product-name">Name: {{ product.name }}</h4>
-            <p class="product-description">{{ product.description }}</p>
+  <section class="section">
+    <div class="vue-component">
+      <div class="container">
+        <div class="row row-border-btm">
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <h2>View All Items <span>
+              <a href="#/products-create"><button class="button btn-primary">Add New Product</button></a>
+            </span></h2>
           </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="widget widget-category shadow">
+              <h5>something</h5>
+              <ul>
+                <li><a><p>First Search Catergory<span class="widget-category-number">220</span></p></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <div v-for="product in products" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="card" v-bind:href="'#/products/' + product.id">
+                <a v-bind:href="'#/products/' + product.id">
+                  <img class="card-img img-thumbnail" v-bind:src='product.download_url'></img>
+                </a>
+                <p class="card-text"> {{ product }}</p>
+                <h4 class="product-name">Name: {{ product.name }}</h4>
+                <p class="product-description">{{ product.description }}</p>
+              </div>
+            </div>          
+          </div>
+        </div>
+      </div> 
     </div>
-
-      
-  </div>
+  </section>
 </template>
 
 <template id="products-create-page">
@@ -278,43 +310,45 @@
   </div>
 </template>
 
+<template id="product-show-page">
+  <section class="section">
+    <div class="vue-component">
+      <h3>{{ message }}</h3>
+      <button v-on:click="addToCart()" class="button btn-primary">Add to Cart</button>
+    </div>
+  </section>
+</template>
+
 <template id="cart-page">
   <div class="vue-component">
   </div>
 </template>
 
 <template id="carts-page">
-  <div class="vue-component">
-    <div class="section container">
-      
-      <div class="row">
-        <div v-for="cartedProduct in cart">
-          <p>{{ cartedProduct }}</p>
-          <label>Amount: </label>
-          <input v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount">
-          <button v-on:click="changeCartedAmount(cartedProduct)">Update Product</button>
-          <button v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button>
+  <section class="section">
+    <div class="vue-component">
+      <div class="section container">
+        <div class="row">
+          <div v-for="cartedProduct in cart">
+            <p>{{ cartedProduct }}</p>
+            <label>Amount: </label>
+            <input class="carted-product-amount" v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount">
+            <button class="button btn-primary" v-on:click="changeCartedAmount(cartedProduct)">Update Product</button>
+            <button class="button btn-primary" v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button>
+          </div>
         </div>
       </div>
     </div>
-    <h3>{{ message }}</h3>
-  </div>
+  </section>
 </template>
-
-<template id="product-show-page">
-  <div class="vue-component">
-    <h3>{{ message }}</h3>
-    <button v-on:click="addToCart()">Add to Cart</button>
-  </div>
-</template>
-
 
 <template id="sign-out-page">
-  <div class="vue-component">
+  <section class="section">
+    <div class="vue-component">
 
-    <h1>{{ message }}</h1>
-
-  </div>
+      <h1>{{ message }}</h1>
+    </div>
+  </section>
 </template>
 
 

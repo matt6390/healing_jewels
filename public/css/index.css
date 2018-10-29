@@ -1,3 +1,71 @@
 section {
   padding-top: 60px;
 }
+
+
+.card{
+  border: 2px #959595 outset;
+  height: 450px;
+  margin: auto;
+  overflow: scroll;
+}
+
+.ftr-btn{
+  float: right;
+}
+
+.row-border-btm {
+  border-bottom: 5px;
+}
+
+.carted-product-amount {
+  background: #313131
+}
+
+.shadow {
+  box-shadow: 0 0 50px rgba(192, 192, 192, 0.4); border-radius: 5px }
+
+.widget {
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+  padding: 0 15px; }
+  .widget h5 {
+    margin-top: 0;
+    border-bottom: 1px solid #E7ECEF;
+    padding: 15px 0; }
+  .widget a {
+    color: #FFF;
+    font-size: 12px;
+    display: inline-block;
+    padding: 7.5px 0;
+    width: 100%;
+    float: left;
+    border-bottom: 1px solid #E7ECEF;
+    transition: all 300ms ease-in-out; }
+    .widget a:hover {
+      color: #B69751; }
+  .widget .ti-close {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out; }
+  .widget-active {
+    color: #B69751 !important; }
+    .widget-active .ti-close {
+      opacity: 1; }
+  .widget-color-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-right: 5px;
+    border-radius: 50%;
+    position: relative;
+    top: -2px; }
+  .widget-category-number {
+    display: inline-block;
+    float: right;
+    opacity: 0.8;
+    background: #B69751;
+    border-radius: 5px;
+    padding: 3.75px 7.5px;
+    font-size: 10px;
+    color: #fff; }

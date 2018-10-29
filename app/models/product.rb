@@ -7,6 +7,10 @@ class Product < ApplicationRecord
   has_many :carted_products
   has_many :carts, through: :carted_products
 
+  def formatted_price
+    sprintf("$%2.2f", price)
+  end
+
   def friendly_created_at
     created_at.strftime("%e %b %Y %H:%M:%S%p")
   end

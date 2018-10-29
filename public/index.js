@@ -161,6 +161,51 @@ var ProductsCreatePage = {
   }
 };
 
+var ProductShowPage = {
+  template: "#product-show-page",
+  data: function() {
+    return {
+      message: "Welcome to Product Show!",
+      productId: parseInt(this.$route.params.id, 10) //parseInt() turns the '12' that is returned by the route.id into an integer
+    };
+  },
+  created: function() {
+  },
+  methods: {
+    addToCart: function() {
+      //create the initial params outside of the firebase function, otherwise you cant access the returned data from Vue.js
+      var params = {product_id: this.productId, amount: 1};
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {  //if logged in
+          var uid = user.uid;
+          var cartParams = {uid: user.uid};
+          //use the uid to find your cart
+          axios.post("/carts", cartParams).then(function(response) {
+            params['cart_id'] = response.data.id;
+            // creates the carted_product
+            axios.post('/carted_products', params).then(function(response) {
+              // console.log("Added To Cart");
+            }).catch(function(errors) { //if a cartedProduct already exists, then the page will just update the product
+              // console.log("CartedProduct Already Exists");
+              //this is the update function
+              axios.patch('/carted_products/' + params['product_id'], params).then(function(response) {
+                // console.log("Updated CartedProduct");
+              }).catch(function(errors) {
+                // prints any errors to console
+                // console.log(errors.response.data.error);
+              });
+            });
+          }.bind(this));
+        } else { //redirect to the signin page if you are not already logged in
+          console.log("No one is logged in");
+          router.push("/signin");
+        }
+      }.bind(this));
+    }
+  },
+  computed: {}
+};
+
 var CartPage = {
   template: "#cart-page",
   data: function() {
@@ -236,51 +281,6 @@ var CartsPage = {
   computed: {}
 };
 
-var ProductShowPage = {
-  template: "#product-show-page",
-  data: function() {
-    return {
-      message: "Welcome to Product Show!",
-      productId: parseInt(this.$route.params.id, 10) //parseInt() turns the '12' that is returned by the route.id into an integer
-    };
-  },
-  created: function() {
-  },
-  methods: {
-    addToCart: function() {
-      //create the initial params outside of the firebase function, otherwise you cant access the returned data from Vue.js
-      var params = {product_id: this.productId, amount: 1};
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {  //if logged in
-          var uid = user.uid;
-          var cartParams = {uid: user.uid};
-          //use the uid to find your cart
-          axios.post("/carts", cartParams).then(function(response) {
-            params['cart_id'] = response.data.id;
-            // creates the carted_product
-            axios.post('/carted_products', params).then(function(response) {
-              console.log("Added To Cart");
-            }).catch(function(errors) { //if a cartedProduct already exists, then the page will just update the product
-              console.log("CartedProduct Already Exists");
-              //this is the update function
-              axios.patch('/carted_products/' + params['product_id'], params).then(function(response) {
-                console.log("Updated CartedProduct");
-              }).catch(function(errors) {
-                // prints any errors to console
-                console.log(errors.response.data.error);
-              });
-            });
-          }.bind(this));
-        } else { //redirect to the signin page if you are not already logged in
-          console.log("No one is logged in");
-          router.push("/signin");
-        }
-      }.bind(this));
-    }
-  },
-  computed: {}
-};
-
 var ProductSearchPage = {
   template: "#product-search-page",
   data: function() {
@@ -299,9 +299,7 @@ var HomePage = {
     return {
       message: 'Welcome to the Home page',
       products: [],
-      featuredProducts: [],
-      groups: [],
-      working: "not working"
+      featuredProducts: []
     };
   },
   created: function() {
@@ -318,22 +316,14 @@ var HomePage = {
       var indexAtProducts = this.products.indexOf(rightFeatured);
       var endOfProducts = this.products.length - 1;
       // find if at the end of the list
-      if (indexAtProducts === endOfProducts) {
-        console.log('At the end');
-      }
-      else {
-        console.log(this.featuredProducts[2]);
+      if (indexAtProducts !== endOfProducts) {
+        // This removes all featuredProducts, and the replaces them with the next ones
         this.featuredProducts.pop();
         this.featuredProducts.pop();
         this.featuredProducts.pop();
         this.featuredProducts.push(this.products[indexAtProducts - 1]);
         this.featuredProducts.push(this.products[indexAtProducts]);
         this.featuredProducts.push(this.products[indexAtProducts + 1]);
-        // this.featuredProducts[2] = this.products[indexAtProducts + 1];
-        // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
-        console.log(this.featuredProducts[2]);
-        // this.featuredProducts[1] = this.products[indexAtProducts];
-        // this.featuredProducts[0] = this.products[indexAtProducts - 1];
         console.log('Not at the end yet');
       }
     },
@@ -342,24 +332,14 @@ var HomePage = {
       var indexAtProducts = this.products.indexOf(leftFeatured);
       var startOfProducts = 0;
       // find if at the end of the list
-      if (indexAtProducts === startOfProducts) {
-        console.log('At the end');
-      }
-      else {
+      if (indexAtProducts !== startOfProducts) {
+        // removes the old, and then populates with the next ones
         this.featuredProducts.pop();
         this.featuredProducts.pop();
         this.featuredProducts.pop();
         this.featuredProducts.push(this.products[indexAtProducts - 1]);
         this.featuredProducts.push(this.products[indexAtProducts]);
         this.featuredProducts.push(this.products[indexAtProducts + 1]);
-        
-        // console.log(this.featuredProducts[2]);
-        // this.featuredProducts[2] = this.products[indexAtProducts + 1];
-        // // this.featuredProducts.set(2, this.products[indexAtProducts + 1]);
-        // console.log(this.featuredProducts[2]);
-        // this.featuredProducts[1] = this.products[indexAtProducts];
-        // this.featuredProducts[0] = this.products[indexAtProducts - 1];
-        console.log('Not at the end yet');
       }
     }
   },
