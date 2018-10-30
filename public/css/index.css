@@ -13,6 +13,13 @@ section {
 .ftr-btn{
   float: right;
 }
+
+.btn-cart {
+  color: #fff;
+  background-color: #0E3386;
+  float: right;
+  border-color: #CC3433; }
+
 .feature-price{
    /*display: inline-block;*/
    /*float: right;*/
@@ -24,6 +31,13 @@ section {
    /*color: #fff; */
 }
 
+.product-show-img{
+  line-height: 1.42857;
+  padding: 4px;
+  max-width: 100%;
+  background-color: #262626;
+  border: 1px solid #333;
+}
 
 .center{
   display: block;

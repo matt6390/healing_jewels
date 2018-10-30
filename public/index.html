@@ -244,15 +244,15 @@
             <div class="widget widget-category shadow">
               <h3>Categories</h3>
               <ul>
-                <li><a><p>Necklaces<span class="widget-category-number">220</span></p></a></li>
-                <li><a><p>Bracelets<span class="widget-category-number">220</span></p></a></li>
-                <li><a><p>Earrings<span class="widget-category-number">220</span></p></a></li>
-                <li><a><p>Rings<span class="widget-category-number">220</span></p></a></li>
+                <li v-on:click="sortNecklaces()"><a><p>Necklaces<span class="widget-category-number">220</span></p></a></li>
+                <li v-on:click="sortBracelets()"><a><p>Bracelets<span class="widget-category-number">220</span></p></a></li>
+                <li v-on:click="sortEarrings()"><a><p>Earrings<span class="widget-category-number">220</span></p></a></li>
+                <li v-on:click="sortRings()"><a><p>Rings<span class="widget-category-number">220</span></p></a></li>
               </ul>
             </div>
           </div>
           <div class="col-md-10">
-            <div v-for="product in products" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div v-for="product in allProducts" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div class="card" v-bind:href="'#/products/' + product.id">
                 <a v-bind:href="'#/products/' + product.id">
                   <img class="img-thumbnail" v-bind:src='product.download_url'></img>
@@ -276,12 +276,12 @@
         <div class="row">
           <form class="col-md-4">
             <div class="form-group">
-              <label>Name</label>
-              <input class="form-control" placeholder="Name" type="text" v-model="name">
+              <label>Name:</label>
+              <input class="form-control" placeholder="Enter a name..." type="text" v-model="name">
             </div>
             <div class="form-group">
-              <label>Description</label>
-              <input class="form-control" type="text" placeholder="Description" name="description" v-model="description">
+              <label>Description:</label>
+              <input class="form-control" type="text" placeholder="Enter a description..." name="description" v-model="description">
             </div>
             <div class="form-group">
               <label>Category</label>
@@ -323,8 +323,26 @@
 <template id="product-show-page">
   <div class="vue-component">
     <section class="section">
-      <h3>{{ message }}</h3>
-      <button v-on:click="addToCart()" class="button btn-primary">Add to Cart</button>
+      <div class="container">
+        <h3>{{ message }}</h3>
+        <div class="row">
+          <div class="col-md-5">
+            <img v-bind:src="product.download_url" class="preview-img product-show-img">
+          </div> 
+          <div class="col-md-7">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h2>{{ product.name }}  <span><button v-on:click="addToCart()" class="btn btn-cart">Add to Cart</button></span></h2>
+              </div>
+              <div class="panel-body">
+                <p>{{ product.description }}</p>
+                <p>Price: {{ product.price }}</p>
+                <p v-if="product.category !== null">Category: {{ product.category }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>

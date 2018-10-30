@@ -50,21 +50,39 @@ var ProductsPage = {
   template: "#products-page",
   data: function() {
     return {
-      products: ""
+      allProducts: [],
+      sortedProducts: []
     };
   },
   created: function() {
     axios.get("/products").then(function(response) {
-      this.products = response.data;
+      this.allProducts = response.data;
+      this.sortedProducts = this.allProducts;
     }.bind(this));
   },
   methods: {
-    signOut: function() {
-      firebase.auth().signOut().then(function() {
-        console.log('Signed Out');
-      }, function(error) {
-        console.error('Sign Out Error', error);
-      });
+    sortNecklaces: function() {
+      this.clearSorted();
+      var x = this.allProducts;
+      for (var i = 0; i < x.length; i++) {
+        if (x[i].category === "necklace" ) {
+          this.sortedProducts.push(x[i]);
+        }
+      }
+      console.log(this.sortedProducts);
+    },
+    sortBracelets: function() {
+      console.log("Bracelets");
+    },
+    sortEarrings: function() {
+      console.log("Earrings");
+    },
+    sortRings: function() {
+      console.log("Rings");
+    },
+    clearSorted: function() {
+      this.sortedProducts = [];
+      console.log('removed');
     }
   },
   computed: {}
@@ -167,10 +185,14 @@ var ProductShowPage = {
   data: function() {
     return {
       message: "Welcome to Product Show!",
-      productId: parseInt(this.$route.params.id, 10) //parseInt() turns the '12' that is returned by the route.id into an integer
+      productId: parseInt(this.$route.params.id, 10), //parseInt() turns the '12' that is returned by the route.id into an integer
+      product:[]
     };
   },
   created: function() {
+    axios.get('/products/' + this.productId).then(function(response) {
+      this.product = response.data;
+    }.bind(this));
   },
   methods: {
     addToCart: function() {
@@ -187,14 +209,7 @@ var ProductShowPage = {
             axios.post('/carted_products', params).then(function(response) {
               // console.log("Added To Cart");
             }).catch(function(errors) { //if a cartedProduct already exists, then the page will just update the product
-              // console.log("CartedProduct Already Exists");
-              //this is the update function
-              axios.patch('/carted_products/' + params['product_id'], params).then(function(response) {
-                // console.log("Updated CartedProduct");
-              }).catch(function(errors) {
-                // prints any errors to console
-                // console.log(errors.response.data.error);
-              });
+              console.log("CartedProduct Already Exists");
             });
           }.bind(this));
         } else { //redirect to the signin page if you are not already logged in
