@@ -31,10 +31,22 @@ section {
    /*color: #fff; */
 }
 
+tr:nth-child(even) {
+    background-color: #4F4F4F
+}
+
 .product-show-img{
   line-height: 1.42857;
   padding: 4px;
   max-width: 100%;
+  background-color: #262626;
+  border: 1px solid #333;
+}
+
+.cart-img{
+  line-height: 1.42857;
+  padding: 4px;
+  max-width: 150px;
   background-color: #262626;
   border: 1px solid #333;
 }
@@ -105,3 +117,7 @@ section {
     padding: 3.75px 7.5px;
     font-size: 10px;
     color: #fff; }
+
+.float-right{
+  float: right;
+}

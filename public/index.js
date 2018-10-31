@@ -236,7 +236,7 @@ var CartPage = {
         var params = {uid: user.uid};
         //the database will check first to make sure a cart doesnt exist yet
         axios.post("/carts", params).then(function(response) {
-          console.log(response.data);
+          // console.log(response.data);
           router.push("/carts/" + uid);
         }.bind(this));
       } else {
