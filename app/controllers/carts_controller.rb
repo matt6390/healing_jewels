@@ -1,6 +1,9 @@
 class CartsController < ApplicationController
   def show
     @cart = Cart.find_by(uid: params[:id])
+    # ordered_products = @cart.carted_products.order('created_at' => :asc)
+    # @cart.carted_products = ordered_products
+    # binding.pry
 
     render 'show.json.jbuilder'
   end

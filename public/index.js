@@ -260,7 +260,13 @@ var CartsPage = {
   },
   created: function() {
     axios.get("/carts/" + this.uid).then(function(response) {
-      this.cart = response.data.carted_products;
+      var params = {cart_id: response.data.id};
+      axios.get("/carted_products/" + response.data.id + "/cart").then(function(response) {
+        this.cart = response.data;
+      }.bind(this)).catch(function(errors) {
+        errors = errors.response.data.error;
+        console.log(errors);
+      });
 
     }.bind(this));
   },

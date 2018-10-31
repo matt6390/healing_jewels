@@ -360,8 +360,8 @@
           <div class="col-md-10">
             <table class="table table-striped shadow">
               <h3 class="cart-header">Your Shopping Cart</h3>
-              <thead>
-                <tr>
+              <thead class="cart-head">
+                <tr class="cart-row">
                   <th></th>
                   <th>Product:</th>
                   <th>Price/Item:</th>
@@ -369,18 +369,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="cartedProduct in cart">
+                <tr v-for="cartedProduct in cart" class="cart-row">
                   <td><img class="cart-img" v-bind:src="cartedProduct.product.download_url"></td>
                   <td>
                     <h4> {{ cartedProduct.product.name }}: </h4>
                     <p>{{ cartedProduct.product.description }}</p>
-                    <label class="label label-danger" v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</label><span class="float-right label label-primary"> Amount in Cart: {{ cartedProduct.amount }}</span>
+                    <button class="label btn-danger" v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button><span class="float-right label label-primary"> Amount in Cart: {{ cartedProduct.amount }}</span>
                   </td>
                   <td><p>{{ cartedProduct.product.price }}</p></td>
                   <td>
                     <!-- <input class="carted-product-amount" v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount"> -->
                     <select v-bind:id="'cartedProduct' + cartedProduct.id" v-on:change="changeCartedAmount(cartedProduct)" class="form-control">
-                      <option selected>Update Amount:</option>
+                      <option selected>Update Amount...</option>
                       <option>1</option>
                       <option>2</option>
                       <option>3</option>
@@ -397,18 +397,11 @@
               </tbody>
             </table>
           </div>
-        </div>
-
-
-       <!--  <div class="row">
-          <div v-for="cartedProduct in cart">
-            <p>{{ cartedProduct }}</p>
-            <label>Amount: </label>
-            <input class="carted-product-amount" v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount">
-            <button class="button btn-primary" v-on:click="changeCartedAmount(cartedProduct)">Update Product</button>
-            <button class="button btn-primary" v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button>
+          <div class="col-md-2">
+            <h3 class="cart-header">Cart Total:</h3>
+            <div class="cart-total shadow"></div>
           </div>
-        </div> -->
+        </div>
       </div>
     </section>
   </div>

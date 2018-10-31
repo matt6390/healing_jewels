@@ -1,11 +1,21 @@
 class CartedProductsController < ApplicationController
   def index
-    @carted_products = CartedProduct.find_by(cart_id: params[:id])
-    render json: @carted_products.as_json
+    @carted_products = CartedProduct.find_by(cart_id: params[:cart_id])
+    render 'index.json,jbuilder'
+  end
+
+  # this is used to keep the order that each carted Product was placed inside of the cart
+  def cart
+    @carted_products = CartedProduct.all
+    @carted_products = @carted_products.where(cart_id: params[:id])
+    @carted_products = @carted_products.order('created_at' => :asc)
+    render 'index.json.jbuilder'
   end
 
   def show
     # for if I ever need the show function
+    @carted_products = CartedProduct.find_by(cart_id: params[:id])
+    render 'index.json.jbuilder'
   end
 
   def create
