@@ -10,7 +10,8 @@ class Product < ApplicationRecord
   enum category: [:Necklace, :Bracelet, :Earring, :Ring]
 
   def formatted_price
-    sprintf("$%2.2f", price)
+    sprintf("%2.2f", price)
+    # price
   end
 
   def friendly_created_at

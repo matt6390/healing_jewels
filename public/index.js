@@ -105,7 +105,6 @@ var ProductsCreatePage = {
     axios.delete('/urls');
   },
   methods: {
-
     readURL: function() { //this function will upload a picture, and provide a download link to be used later
       var pictureFile = document.getElementById("productPicture").files[0];
       //contact the firebase storage server
@@ -237,7 +236,7 @@ var CartPage = {
         //the database will check first to make sure a cart doesnt exist yet
         axios.post("/carts", params).then(function(response) {
           // console.log(response.data);
-          router.push("/carts/" + uid);
+          router.push("/carts/" + response.data.id);
         }.bind(this));
       } else {
         console.log("No one is logged in");
@@ -255,22 +254,32 @@ var CartsPage = {
     return {
       message: "Welcome to Your Cart!",
       cart: [],
+      total:"",
       uid: this.$route.params.id
     }; 
   },
   created: function() {
-    axios.get("/carts/" + this.uid).then(function(response) {
-      var params = {cart_id: response.data.id};
-      axios.get("/carted_products/" + response.data.id + "/cart").then(function(response) {
+    // 
+      axios.get("/carted_products/" + this.uid + "/cart").then(function(response) {
         this.cart = response.data;
+        this.setTotal(this.cart);
       }.bind(this)).catch(function(errors) {
         errors = errors.response.data.error;
         console.log(errors);
       });
-
-    }.bind(this));
   },
   methods: {
+    setTotal: function(cart) {
+      var total = 0;
+      cart.forEach(function(item) {
+        var itemAmount = item.amount;
+        var itemPrice = item.product.price * 100;
+        total = total + (itemPrice * itemAmount);
+
+      });
+      this.total = total / 100;
+    },
+
     removeFromCart: function(amount, id) {
       var params = {amount: amount};
       axios.patch("/carted_products/" + id, params).then(function(response) {

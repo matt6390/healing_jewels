@@ -31,6 +31,15 @@ section {
    /*color: #fff; */
 }
 
+.total-text{
+  font-family: arial;
+  color: #B69751;
+}
+
+.subtotal{
+  font-family: arial;
+}
+
 tr:nth-child(even) {
     background-color: #4F4F4F;
 }

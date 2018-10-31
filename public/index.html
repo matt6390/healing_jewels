@@ -257,7 +257,6 @@
                 <a v-bind:href="'#/products/' + product.id">
                   <img class="img-thumbnail" v-bind:src='product.download_url'></img>
                 </a>
-                <p class="card-text"> {{ product }}</p>
                 <h4 class="product-name">Name: {{ product.name }}</h4>
                 <p class="product-description">{{ product.description }}</p>
               </div>
@@ -294,7 +293,7 @@
             </div>
             <div class="form-group">
               <label>Price</label>
-              <input class="form-control" type="integer" placeholder="Expensive :)" name="price" v-model="price">
+              <input class="form-control" v-on:change="setDecimal(price)" type="integer" placeholder="Expensive :)" name="price" v-model="price">
             </div>
             <div class="form-group">
               <label>Picture</label>
@@ -357,8 +356,8 @@
     <section class="section">
       <div class="container">
         <div class="row">
-          <div class="col-md-10">
-            <table class="table table-striped shadow">
+          <div class="col-md-9">
+            <table v-if="cart[0]" class="table table-striped shadow">
               <h3 class="cart-header">Your Shopping Cart</h3>
               <thead class="cart-head">
                 <tr class="cart-row">
@@ -376,7 +375,7 @@
                     <p>{{ cartedProduct.product.description }}</p>
                     <button class="label btn-danger" v-on:click="removeFromCart(0, cartedProduct.id)">Delete Product</button><span class="float-right label label-primary"> Amount in Cart: {{ cartedProduct.amount }}</span>
                   </td>
-                  <td><p>{{ cartedProduct.product.price }}</p></td>
+                  <td><p>${{ cartedProduct.product.price }}</p></td>
                   <td>
                     <!-- <input class="carted-product-amount" v-bind:id="'cartedProduct' + cartedProduct.id" type="number" v-bind:value="cartedProduct.amount"> -->
                     <select v-bind:id="'cartedProduct' + cartedProduct.id" v-on:change="changeCartedAmount(cartedProduct)" class="form-control">
@@ -396,10 +395,13 @@
                 </tr>
               </tbody>
             </table>
+            <h2 v-else>No Items in Your Cart</h2>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <h3 class="cart-header">Cart Total:</h3>
-            <div class="cart-total shadow"></div>
+            <div class="cart-total shadow">
+              <h4 class="subtotal">Subtotal ({{cart.length}} items): <span class="total-text">${{ total }}</span></h4>
+            </div>
           </div>
         </div>
       </div>
