@@ -5,7 +5,7 @@ json.updated_at cart.updated_at
 json.total cart.total
 
 # will display a carted_product, as well as the product information.
-json.carted_products cart.carted_products do |carted_product|
+json.carted_products cart.ordered_carted_products do |carted_product|
   json.id carted_product.id
   json.cart_id carted_product.cart_id
   json.product_id carted_product.product_id
