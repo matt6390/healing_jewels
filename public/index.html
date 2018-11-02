@@ -318,7 +318,59 @@
   </div>
 </template>
 
-<template id="product-show-page">
+<template id="products-update-page">
+  <div class="vue-component">
+    <section class="section">
+      <div class="container">
+        <h1>Update Your Product</h1>
+        <div class="row">
+          <form class="col-md-4">
+            <div class="form-group">
+              <label>Name:</label>
+              <input class="form-control" placeholder="Enter a name..." type="text" v-model="newName">
+            </div>
+            <div class="form-group">
+              <label>Description:</label>
+              <input class="form-control" type="text" placeholder="Enter a description..." name="description" v-model="newDescription">
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <div class="category">
+                <input type="radio" id="Necklace" name="category" v-model="newCategory" value="0">  Necklace </input>
+                <input type="radio" id="Bracelet" name="category" v-model="newCategory" value="1">  Bracelet </input>
+                <input type="radio" id="Earring" name="category" v-model="newCategory" value="2">  Earring </input>
+                <input type="radio" id="Ring" name="category" v-model="newCategory" value="3">  Ring </input>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Price</label>
+              <input class="form-control" type="integer" placeholder="Expensive :)" name="price" v-model="newPrice">
+            </div>
+            <div class="form-group">
+              <label>Picture</label>
+              <input class="form-control" id="productPicture" type="file" v-on:change="readURL()" name="productPicture">
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped" id="picProgressBar" role="progressbar" style="width:0%"></div>
+            </div>
+            <ul>
+              <li v-for="error in errors" style="color:red"> {{ error }}</li>
+            </ul>
+            <button class="button btn-primary" type="button">
+              <a v-on:click="createProduct()">Add New Product</a>
+            </button>
+            <input class="button btn-primary" type="reset">
+          </form>
+          <div class="col-md-6">
+            <img id='previewPic' class="preview-img img-thumbnail" v-bind:src="product.download_url" alt="No Image Found">
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="products-show-page">
   <div class="vue-component">
     <section class="section">
       <div class="container">
@@ -336,6 +388,7 @@
                 <p>{{ product.description }}</p>
                 <p>Price: {{ product.price }}</p>
                 <p v-if="product.category !== null">Category: {{ product.category }}</p>
+                <a  v-bind:href="'#/products/' + product.id + '/update'"><button  class="btn btn-update">Update Product</button></a>
               </div>
             </div>
           </div>

@@ -34,6 +34,13 @@ section {
   float: right;
   border-color: #CC3433; }
 
+.btn-update{
+  color: #fff;
+  float: right;
+  background-color: red;
+  border-color: green 
+}
+
 .feature-price{
    /*display: inline-block;*/
    /*float: right;*/

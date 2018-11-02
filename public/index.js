@@ -184,8 +184,107 @@ var ProductsCreatePage = {
   }
 };
 
-var ProductShowPage = {
-  template: "#product-show-page",
+var ProductsUpdatePage = {
+  template: "#products-update-page",
+  data: function() {
+    return {
+      message: "Update Page",
+      product: [],
+      newName: "",
+      newDescription: "",
+      newCategory: "",
+      newPrice: "",
+      errors: []
+    };
+  },
+  created: function() {
+    axios.get("/products/" + this.$route.params.id).then(function(response) {
+      console.log(response.data);
+      this.product = response.data;
+
+      this.setName(this.product.name);
+      this.setDescription(this.product.description);
+      this.setCategory(this.product.category); //category is set, but the radio is not changed
+      this.setPrice(this.product.price);
+
+
+
+    }.bind(this)).catch(function(errors) {
+      this.errors = errors.response.data.error;
+    }.bind(this));
+  },
+  methods: {
+    readURL: function() { //this function will upload a picture, and provide a download link to be used later
+      var pictureFile = document.getElementById("productPicture").files[0];
+      console.log(pictureFile);
+      //contact the firebase storage server
+      var ref = firebase.storage().ref();
+      var upload = ref.child(pictureFile.name).put(pictureFile);
+
+      //provides information on upload progress (usefull for really big picture files)
+      upload.on('state_changed', function(snapshot) {
+        //this is used to display the upload progress of the image
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        document.getElementById('picProgressBar').style.width = progress + "%";
+        document.getElementById('picProgressBar').innerHTML = progress.toFixed(2) + "%";
+        switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log('Upload is paused');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          // console.log('Upload is running');
+          break;
+        }
+      });
+
+      //this gets the download URL from the snapshot, and then saves it in the database
+      upload.then(function(snap) {
+        var url = snap.ref.getDownloadURL().then(function(url) {
+          //change the picture for the preview
+          var previewPic = document.getElementById('previewPic');
+          previewPic.src = url;
+          //upload the download link to the database
+          var params = {link: url};
+          axios.post("/urls", params).then(function(response) {
+            console.log(response.data.link);
+          }.bind(this));
+        });
+      });
+    },
+    updateProduct: function() {
+      var params = {
+        name: this.name,
+        description: this.description,
+        category: this.category,
+        price: this.price
+      };
+    },
+
+    setName: function(name) {
+      this.newName = name;
+    },
+
+    setDescription: function(description) {
+      this.newDescription = description;
+    },
+
+    setCategory: function(category) {
+      this.newCategory = category;
+      console.log("Category: " + category);
+      document.getElementById(category).checked = true;
+    },
+
+    setPrice: function(price) {
+      this.newPrice = price;
+    },
+  },
+  computed: {
+  }
+};
+
+var ProductsShowPage = {
+  template: "#products-show-page",
   data: function() {
     return {
       message: "Welcome to Product Show!",
@@ -258,8 +357,7 @@ var CartsPage = {
   data: function() {
     return {
       message: "Welcome to Your Cart!",
-      cart: {carted_product: []},
-      total:"",
+      cart: {carted_products: []},
       uid: this.$route.params.id
     }; 
   },
@@ -377,7 +475,8 @@ var router = new VueRouter({
            { path: "/signin", component: SignInPage }, 
            { path: "/signout", component: SignOutPage }, 
            { path: "/products", component: ProductsPage },
-           { path: "/products/:id", component: ProductShowPage },
+           { path: "/products/:id", component: ProductsShowPage },
+           { path: "/products/:id/update", component: ProductsUpdatePage },
            { path: "/products/search", component: ProductSearchPage },
            { path: "/products-create", component: ProductsCreatePage },
            { path: "/cart", component: CartPage },
