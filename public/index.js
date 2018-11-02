@@ -22,6 +22,11 @@ var SignInPage = {
       }, function(error) {
         console.error('Sign Out Error', error);
       });
+    },
+    signIn: function() {
+      var email = email;
+      var password = password;
+
     }
   },
   computed: {}
@@ -253,32 +258,20 @@ var CartsPage = {
   data: function() {
     return {
       message: "Welcome to Your Cart!",
-      cart: [],
+      cart: {carted_product: []},
       total:"",
       uid: this.$route.params.id
     }; 
   },
   created: function() {
-    // 
-      axios.get("/carted_products/" + this.uid + "/cart").then(function(response) {
-        this.cart = response.data;
-        this.setTotal(this.cart);
-      }.bind(this)).catch(function(errors) {
-        errors = errors.response.data.error;
-        console.log(errors);
-      });
+    axios.get("/carts/" + this.$route.params.id).then(function(response) {
+      this.cart = response.data;
+    }.bind(this)).catch(function(errors) {
+      errors = errors.response.data.error;
+      console.log(errors);
+    });
   },
   methods: {
-    setTotal: function(cart) {
-      var total = 0;
-      cart.forEach(function(item) {
-        var itemAmount = item.amount;
-        var itemPrice = item.product.price * 100;
-        total = total + (itemPrice * itemAmount);
-
-      });
-      this.total = total / 100;
-    },
 
     removeFromCart: function(amount, id) {
       var params = {amount: amount};

@@ -3,6 +3,20 @@ section {
 }
 
 
+.center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.product-card{
+  border: 2px #959595 outset;
+  height: 250px;
+  margin: auto;
+  overflow: hidden;
+}
+
 .card{
   border: 2px #959595 outset;
   height: 450px;

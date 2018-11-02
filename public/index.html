@@ -234,7 +234,7 @@
         <div class="row row-border-btm">
           <div class="col-md-3"></div>
           <div class="col-md-9">
-            <h2>View All Items <span>
+            <h2>View All Items: <span>
               <a href="#/products-create"><button class="button btn-primary">Add New Product</button></a>
             </span></h2>
           </div>
@@ -253,12 +253,11 @@
           </div>
           <div class="col-md-10">
             <div v-for="product in allProducts" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="card" v-bind:href="'#/products/' + product.id">
+              <div class="product-card" v-bind:href="'#/products/' + product.id">
                 <a v-bind:href="'#/products/' + product.id">
-                  <img class="img-thumbnail" v-bind:src='product.download_url'></img>
+                  <img class="center img-thumbnail" v-bind:src='product.download_url'></img>
+                  <h3 class="product-name">{{ product.name }}</h3>
                 </a>
-                <h4 class="product-name">Name: {{ product.name }}</h4>
-                <p class="product-description">{{ product.description }}</p>
               </div>
             </div>          
           </div>
@@ -293,7 +292,7 @@
             </div>
             <div class="form-group">
               <label>Price</label>
-              <input class="form-control" v-on:change="setDecimal(price)" type="integer" placeholder="Expensive :)" name="price" v-model="price">
+              <input class="form-control" type="integer" placeholder="Expensive :)" name="price" v-model="price">
             </div>
             <div class="form-group">
               <label>Picture</label>
@@ -357,7 +356,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-9">
-            <table v-if="cart[0]" class="table table-striped shadow">
+            <table v-if="cart['carted_products']" class="table table-striped shadow">
               <h3 class="cart-header">Your Shopping Cart</h3>
               <thead class="cart-head">
                 <tr class="cart-row">
@@ -368,7 +367,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="cartedProduct in cart" class="cart-row">
+                <tr v-for="cartedProduct in cart['carted_products']" class="cart-row">
                   <td><img class="cart-img" v-bind:src="cartedProduct.product.download_url"></td>
                   <td>
                     <h4> {{ cartedProduct.product.name }}: </h4>
@@ -400,7 +399,7 @@
           <div class="col-md-3">
             <h3 class="cart-header">Cart Total:</h3>
             <div class="cart-total shadow">
-              <h4 class="subtotal">Subtotal ({{cart.length}} items): <span class="total-text">${{ total }}</span></h4>
+              <h4 class="subtotal">Subtotal ({{cart.length}} items): <span class="total-text">${{ cart.total }}</span></h4>
             </div>
           </div>
         </div>

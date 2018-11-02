@@ -23,6 +23,7 @@ class ProductsController < ApplicationController
   end
   
   def create
+
     @product = Product.new(
                             name: params[:name],
                             description: params[:description],
@@ -30,6 +31,8 @@ class ProductsController < ApplicationController
                             download_url: params[:download_url],
                             category: params[:category]
                           )
+    binding.pry
+
     if @product.save 
      render 'show.json.jbuilder'
     else

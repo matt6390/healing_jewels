@@ -11,7 +11,6 @@ class Product < ApplicationRecord
 
   def formatted_price
     sprintf("%2.2f", price)
-    # price
   end
 
   def friendly_created_at

@@ -1,6 +1,6 @@
 class CartsController < ApplicationController
   def show
-    @cart = Cart.find_by(uid: params[:id])
+    @cart = Cart.find_by(uid: params[:id]) || Cart.find(params[:id])
     # ordered_products = @cart.carted_products.order('created_at' => :asc)
     # @cart.carted_products = ordered_products
     # binding.pry
