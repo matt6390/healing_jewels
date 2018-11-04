@@ -1,9 +1,44 @@
-var SignInPage = {
-  template: "#sign-in-page",
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+var LogInPage = {
+  template: "#log-in-page",
   data: function() {
     return {
       message: "Welcome to Vue.js!",
-      user: "something"
+      user: "something",
+      email: "",
+      password: "",
+      errors: []
     };
   },
   created: function() {
@@ -16,12 +51,25 @@ var SignInPage = {
     });
   },
   methods: {
-    signOut: function() {
-      firebase.auth().signOut().then(function() {
-        console.log('Signed Out');
-      }, function(error) {
-        console.error('Sign Out Error', error);
-      });
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/products");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
     },
     signIn: function() {
       var email = email;
@@ -32,25 +80,13 @@ var SignInPage = {
   computed: {}
 };
 
-var SignOutPage = {
-  template: "#sign-out-page",
-  data: function() {
-    return {
-      message: "Welcome to Vue.js!"
-    };
-  },
+var LogOutPage = {
   created: function() {
-    firebase.auth().signOut().then(function() {
-      console.log('Signed Out');
-      router.push("/products");
-    }, function(error) {
-      console.error('Sign Out Error', error);
-    });
-  },
-  methods: {},
-  computed: {}
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/products");
+  }
 };
-
 var ProductsPage = {
   template: "#products-page",
   data: function() {
@@ -472,8 +508,9 @@ var HomePage = {
 var router = new VueRouter({
   routes: [
            { path: "/", component: HomePage }, 
-           { path: "/signin", component: SignInPage }, 
-           { path: "/signout", component: SignOutPage }, 
+           { path: "/signup", component: SignupPage }, 
+           { path: "/login", component: LogInPage }, 
+           { path: "/logout", component: LogOutPage }, 
            { path: "/products", component: ProductsPage },
            { path: "/products/:id", component: ProductsShowPage },
            { path: "/products/:id/update", component: ProductsUpdatePage },
@@ -489,5 +526,11 @@ var router = new VueRouter({
 
 var app = new Vue({
   el: "#vue-app",
-  router: router
+  router: router,
+  created: function() {
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
+    }
+  }
 });
