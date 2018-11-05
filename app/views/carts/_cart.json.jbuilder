@@ -1,5 +1,5 @@
 json.id cart.id
-json.uid cart.uid
+json.user_id cart.user_id
 json.created_at cart.created_at
 json.updated_at cart.updated_at
 json.total cart.total

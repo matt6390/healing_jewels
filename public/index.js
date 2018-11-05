@@ -87,6 +87,7 @@ var LogOutPage = {
     router.push("/products");
   }
 };
+
 var ProductsPage = {
   template: "#products-page",
   data: function() {
@@ -372,7 +373,7 @@ var CartPage = {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {  //if logged in, create a user
         var uid = user.uid;
-        var params = {uid: user.uid};
+        var params = {user_id: user.uid};
         //the database will check first to make sure a cart doesnt exist yet
         axios.post("/carts", params).then(function(response) {
           // console.log(response.data);

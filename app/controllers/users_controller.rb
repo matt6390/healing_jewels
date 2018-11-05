@@ -1,4 +1,13 @@
 class UsersController < ApplicationController
+  def index
+    @users = User.all
+    render 'index.json.jbuilder'
+  end
+  def show
+    @user = User.find(current_user.id)
+    render json: @user.as_json
+  end
+
   def create
     @user = User.new(
       name: params[:name],

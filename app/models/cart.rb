@@ -1,7 +1,8 @@
 class Cart < ApplicationRecord
-  validates :uid, uniqueness: true
-  validates :uid, presence: true
+  validates :user_id, uniqueness: true
+  validates :user_id, presence: true
 
+  belongs_to :user
   has_many :carted_products
   has_many :products, through: :carted_products
 
