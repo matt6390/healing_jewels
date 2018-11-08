@@ -372,6 +372,7 @@ var CartsPage = {
   created: function() {
     axios.get("/carts/myCart").then(function(response) {
       this.cart = response.data;
+      console.log(response.data);
     }.bind(this)).catch(function(errors) {
       this.errors = errors.response.data.error;
       router.push('/login');
