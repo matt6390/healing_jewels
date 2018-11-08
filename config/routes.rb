@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   delete "/urls" => 'urls#destroy'
 
   get "/carts" => 'carts#index'
+  get "/carts/myCart" => 'carts#myCart'
   get "/carts/:id" => 'carts#show'
   post "/carts" => 'carts#create'
   patch "/carts/:id" => 'carts#update'  

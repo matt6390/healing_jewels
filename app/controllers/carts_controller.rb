@@ -7,6 +7,14 @@ class CartsController < ApplicationController
 
     render 'show.json.jbuilder'
   end
+  def myCart
+    @cart = Cart.find_by(user_id: current_user.id)
+    if @cart
+      render 'show.json.jbuilder'
+    else
+      render json: {errors: @cart.errors.full_messages}, status: :unprocessable_entity
+    end
+  end
   def create
     @cart = Cart.new(
                       user_id: params[:user_id]
@@ -14,7 +22,7 @@ class CartsController < ApplicationController
     if @cart.save
       render json: @cart.as_json 
     else 
-      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+      render json: {errors: @cart.errors.full_messages}, status: :unprocessable_entity
     end
     render 'show.json.jbuilder'
 

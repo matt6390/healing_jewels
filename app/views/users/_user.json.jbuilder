@@ -4,6 +4,8 @@ json.password_digest user.password_digest
 json.created_at user.friendly_created_at
 json.updated_at user.friendly_updated_at
 
-json.cart do
-  json.partial! user.cart, partial: 'cart', as: :cart
+if user.cart
+  json.cart do
+    json.partial! user.cart, partial: 'cart', as: :cart
+  end
 end

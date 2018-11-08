@@ -362,49 +362,24 @@ var ProductsShowPage = {
   computed: {}
 };
 
-var CartPage = {
-  template: "#cart-page",
-  data: function() {
-    return {
-    };
-  },
-  created: function() {
-    //when the page loads, checks to see if they have a cart
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {  //if logged in, create a user
-        var uid = user.uid;
-        var params = {user_id: user.uid};
-        //the database will check first to make sure a cart doesnt exist yet
-        axios.post("/carts", params).then(function(response) {
-          // console.log(response.data);
-          router.push("/carts/" + response.data.id);
-        }.bind(this));
-      } else {
-        console.log("No one is logged in");
-        router.push("/signin");
-      }
-    });
-  },
-  methods: {  },
-  computed: {}
-};
-
 var CartsPage = {
   template: "#carts-page",
   data: function() {
     return {
       message: "Welcome to Your Cart!",
-      cart: {carted_products: []},
-      uid: this.$route.params.id
+      cart: {carted_products: {}},
+      errors: []
     }; 
   },
   created: function() {
-    axios.get("/carts/" + this.$route.params.id).then(function(response) {
+    axios.get("/carts/myCart").then(function(response) {
+      console.log('triggered');
       this.cart = response.data;
     }.bind(this)).catch(function(errors) {
-      errors = errors.response.data.error;
-      console.log(errors);
-    });
+      this.errors = errors.response.data.error;
+      router.push('/#/login');
+      console.log(this.errors);
+    }.bind(this));
   },
   methods: {
 
@@ -517,8 +492,8 @@ var router = new VueRouter({
            { path: "/products/:id/update", component: ProductsUpdatePage },
            { path: "/products/search", component: ProductSearchPage },
            { path: "/products-create", component: ProductsCreatePage },
-           { path: "/cart", component: CartPage },
-           { path: "/carts/:id", component: CartsPage }
+           // { path: "/cart", component: CartPage },
+           { path: "/carts", component: CartsPage }
            ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
