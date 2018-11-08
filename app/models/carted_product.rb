@@ -1,5 +1,6 @@
 class CartedProduct < ApplicationRecord
-  validates :product_id, uniqueness: true
+  validates :product_id, presence: true
+  validates :cart_id, presence: true
 
   belongs_to :cart
   belongs_to :product

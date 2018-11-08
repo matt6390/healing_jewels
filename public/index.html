@@ -94,7 +94,7 @@
               <ul class="nav navbar-nav">
                 <li data-target="#myNavbar" data-toggle="collapse" class="active"><a href="">home</a></li>
                 <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/login">Log In</a> </li>
-                <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/signup">Sign UpÏ</a> </li>
+                <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/signup">Sign Up</a> </li>
                 <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/products">Products</a> </li>
                 <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/logout">Log Out</a>  </li>
                 <li data-target="#myNavbar" data-toggle="collapse"> <a href="#/carts">Cart</a>  </li>
@@ -399,7 +399,7 @@
               </div>
               <div class="panel-body">
                 <p>{{ product.description }}</p>
-                <p>Price: {{ product.price }}</p>
+                <p>Price: ${{ product.price }}</p>
                 <p v-if="product.category !== null">Category: {{ product.category }}</p>
                 <a  v-bind:href="'#/products/' + product.id + '/update'"><button  class="btn btn-update">Update Product</button></a>
               </div>
@@ -408,11 +408,6 @@
         </div>
       </div>
     </section>
-  </div>
-</template>
-
-<template id="cart-page">
-  <div class="vue-component">
   </div>
 </template>
 

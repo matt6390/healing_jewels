@@ -20,12 +20,10 @@ class CartsController < ApplicationController
                       user_id: params[:user_id]
                     )
     if @cart.save
-      render json: @cart.as_json 
+      render 'show.json.jbuilder'
     else 
       render json: {errors: @cart.errors.full_messages}, status: :unprocessable_entity
     end
-    render 'show.json.jbuilder'
-
   end
 
   def destroy #will probably only ever use this for when an account is removed?

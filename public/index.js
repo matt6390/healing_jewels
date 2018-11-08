@@ -326,7 +326,8 @@ var ProductsShowPage = {
     return {
       message: "Welcome to Product Show!",
       productId: parseInt(this.$route.params.id, 10), //parseInt() turns the '12' that is returned by the route.id into an integer
-      product:[]
+      product:[],
+      errors: []
     };
   },
   created: function() {
@@ -336,27 +337,15 @@ var ProductsShowPage = {
   },
   methods: {
     addToCart: function() {
-      //create the initial params outside of the firebase function, otherwise you cant access the returned data from Vue.js
       var params = {product_id: this.productId, amount: 1};
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {  //if logged in
-          var uid = user.uid;
-          var cartParams = {uid: user.uid};
-          //use the uid to find your cart
-          axios.post("/carts", cartParams).then(function(response) {
-            params['cart_id'] = response.data.id;
-            // creates the carted_product
-            axios.post('/carted_products', params).then(function(response) {
-              // console.log("Added To Cart");
-            }).catch(function(errors) { //if a cartedProduct already exists, then the page will just update the product
-              console.log("CartedProduct Already Exists");
-            });
-          }.bind(this));
-        } else { //redirect to the signin page if you are not already logged in
-          console.log("No one is logged in");
-          router.push("/signin");
-        }
-      }.bind(this));
+      axios.post('/carted_products', params).then(function(response) {
+        console.log('Added To Cart');
+        router.push('/products');
+      }).catch(function(errors) {
+        this.errors = errors.response.data.error;
+        console.log(this.errors);
+        router.push('/login');
+      });
     }
   },
   computed: {}
@@ -377,7 +366,7 @@ var CartsPage = {
       this.cart = response.data;
     }.bind(this)).catch(function(errors) {
       this.errors = errors.response.data.error;
-      router.push('/#/login');
+      router.push('/login');
       console.log(this.errors);
     }.bind(this));
   },

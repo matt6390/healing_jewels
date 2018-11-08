@@ -19,15 +19,19 @@ class CartedProductsController < ApplicationController
   end
 
   def create
-    @carted_product = CartedProduct.new(
-                                         cart_id: params[:cart_id], 
-                                         product_id: params[:product_id],
-                                         amount: params[:amount]
-                                        )
-    if @carted_product.save 
-     render json: @carted_product.as_json
+    if current_user
+      @carted_product = CartedProduct.new(
+                                           cart_id: current_user.cart.id, 
+                                           product_id: params[:product_id],
+                                           amount: params[:amount]
+                                          )
+      if @carted_product.save 
+       render json: @carted_product.as_json
+      else
+        render json: {errors: @carted_product.errors.full_messages}, status: :unprocessable_entity
+      end
     else
-      render json: {errors: @carted_product.errors.full_messages}, status: :unprocessable_entity
+      render json: {errors: "Please Log In"}, status: :authenticity_error
     end
   end
 
