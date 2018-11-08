@@ -19,17 +19,30 @@ class CartedProductsController < ApplicationController
   end
 
   def create
+    # check if logged in
     if current_user
-      @carted_product = CartedProduct.new(
-                                           cart_id: current_user.cart.id, 
-                                           product_id: params[:product_id],
-                                           amount: params[:amount]
-                                          )
-      if @carted_product.save 
-       render json: @carted_product.as_json
+      # then check to see if its already been added to cart
+      @carted_product = CartedProduct.find_by(cart_id: current_user.cart.id, product_id: params[:product_id])
+      if @carted_product
+        # add 1 more if already in the cart
+        @carted_product.amount = @carted_product.amount + 1
+        @carted_product.save
+        render json: {message: "Already In Cart"}
       else
-        render json: {errors: @carted_product.errors.full_messages}, status: :unprocessable_entity
+        # if not, create a Carted Product
+        @carted_product = CartedProduct.new(
+                                             cart_id: current_user.cart.id, 
+                                             product_id: params[:product_id],
+                                             amount: params[:amount]
+                                            )
+        if @carted_product.save 
+         render json: @carted_product.as_json
+        else
+          render json: {errors: @carted_product.errors.full_messages}, status: :unprocessable_entity
+        end
       end
+
+
     else
       render json: {errors: "Please Log In"}, status: :authenticity_error
     end

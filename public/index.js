@@ -88,6 +88,9 @@ var ProductsPage = {
     }.bind(this));
   },
   methods: {
+    showAll: function() {
+      this.sortedProducts = this.allProducts;
+    },
     sortNecklaces: function() {
       this.clearSorted();
       var x = this.allProducts;
@@ -96,7 +99,6 @@ var ProductsPage = {
           this.sortedProducts.push(x[i]);
         }
       }
-      console.log(this.sortedProducts);
     },
     sortBracelets: function() {
       this.clearSorted();
@@ -106,8 +108,6 @@ var ProductsPage = {
           this.sortedProducts.push(x[i]);
         }
       }
-      console.log(this.sortedProducts);
-      console.log("Bracelets");
     },
     sortEarrings: function() {
       this.clearSorted();
@@ -117,8 +117,6 @@ var ProductsPage = {
           this.sortedProducts.push(x[i]);
         }
       }
-      console.log(this.sortedProducts);
-      console.log("Earrings");
     },
     sortRings: function() {
       this.clearSorted();
@@ -128,12 +126,9 @@ var ProductsPage = {
           this.sortedProducts.push(x[i]);
         }
       }
-      console.log(this.sortedProducts);
-      console.log("Rings");
     },
     clearSorted: function() {
       this.sortedProducts = [];
-      console.log('removed');
     }
   },
   computed: {}
@@ -372,7 +367,6 @@ var CartsPage = {
   created: function() {
     axios.get("/carts/myCart").then(function(response) {
       this.cart = response.data;
-      console.log(response.data);
     }.bind(this)).catch(function(errors) {
       this.errors = errors.response.data.error;
       router.push('/login');
