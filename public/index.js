@@ -1,35 +1,3 @@
-var SignupPage = {
-  template: "#signup-page",
-  data: function() {
-    return {
-      name: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-      errors: []
-    };
-  },
-  methods: {
-    submit: function() {
-      var params = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        password_confirmation: this.passwordConfirmation
-      };
-      axios
-        .post("/users", params)
-        .then(function(response) {
-          router.push("/login");
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    }
-  }
-};
 var LogInPage = {
   template: "#log-in-page",
   data: function() {
@@ -37,21 +5,18 @@ var LogInPage = {
       message: "Welcome to Vue.js!",
       user: "something",
       email: "",
+      signUpEmail: "",
+      name: "",
       password: "",
+      signUpPassword: "",
+      passwordConfirmation: "",
       errors: []
     };
   },
   created: function() {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log(user);
-      } else {
-        console.log("No one is logged in");
-      }
-    });
   },
   methods: {
-    submit: function() {
+    login: function() {
       var params = {
         auth: { email: this.email, password: this.password }
       };
@@ -71,10 +36,30 @@ var LogInPage = {
           }.bind(this)
         );
     },
-    signIn: function() {
-      var email = email;
-      var password = password;
-
+    signUp: function() {
+      var params = {
+        name: this.name,
+        email: this.signUpEmail,
+        password: this.signUpPassword,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/users", params)
+        .then(function(response) {
+          console.log(response.data);
+          var newParams = {user_id: response.data.id};
+          axios.post('/carts', newParams).then(function(response) {
+            location.reload();
+          }).catch(function(errors) {
+            this.errors = errors.response.data.error;
+            console.log(this.errors);
+          });
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
     }
   },
   computed: {}
@@ -107,19 +92,43 @@ var ProductsPage = {
       this.clearSorted();
       var x = this.allProducts;
       for (var i = 0; i < x.length; i++) {
-        if (x[i].category === "necklace" ) {
+        if (x[i].category === "Necklace" ) {
           this.sortedProducts.push(x[i]);
         }
       }
       console.log(this.sortedProducts);
     },
     sortBracelets: function() {
+      this.clearSorted();
+      var x = this.allProducts;
+      for (var i = 0; i < x.length; i++) {
+        if (x[i].category === "Bracelet" ) {
+          this.sortedProducts.push(x[i]);
+        }
+      }
+      console.log(this.sortedProducts);
       console.log("Bracelets");
     },
     sortEarrings: function() {
+      this.clearSorted();
+      var x = this.allProducts;
+      for (var i = 0; i < x.length; i++) {
+        if (x[i].category === "Earring" ) {
+          this.sortedProducts.push(x[i]);
+        }
+      }
+      console.log(this.sortedProducts);
       console.log("Earrings");
     },
     sortRings: function() {
+      this.clearSorted();
+      var x = this.allProducts;
+      for (var i = 0; i < x.length; i++) {
+        if (x[i].category === "Ring" ) {
+          this.sortedProducts.push(x[i]);
+        }
+      }
+      console.log(this.sortedProducts);
       console.log("Rings");
     },
     clearSorted: function() {
@@ -362,12 +371,10 @@ var CartsPage = {
   },
   created: function() {
     axios.get("/carts/myCart").then(function(response) {
-      console.log('triggered');
       this.cart = response.data;
     }.bind(this)).catch(function(errors) {
       this.errors = errors.response.data.error;
       router.push('/login');
-      console.log(this.errors);
     }.bind(this));
   },
   methods: {
@@ -472,8 +479,7 @@ var HomePage = {
 
 var router = new VueRouter({
   routes: [
-           { path: "/", component: HomePage }, 
-           { path: "/signup", component: SignupPage }, 
+           { path: "/", component: HomePage },
            { path: "/login", component: LogInPage }, 
            { path: "/logout", component: LogOutPage }, 
            { path: "/products", component: ProductsPage },
