@@ -31,7 +31,6 @@ class ProductsController < ApplicationController
                             download_url: params[:download_url],
                             category: params[:category]
                           )
-    binding.pry
 
     if @product.save 
      render 'show.json.jbuilder'

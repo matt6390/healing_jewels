@@ -367,10 +367,39 @@ var CartsPage = {
   created: function() {
     axios.get("/carts/myCart").then(function(response) {
       this.cart = response.data;
+      paypal.Button.render({
+        env: 'sandbox', // sandbox | production
+        client: {
+          sandbox:    'AdQij7EboA4tscs1G4qs00ZITvyydfVhKUsdnAYTHAeIrxYFp-7sN9kixqu3QmiqpkPULSP5H9qMSNtW',
+          production: '<insert production client id>'
+        },
+        commit: true,
+        payment: function(data, actions) {
+          return actions.payment.create({
+            payment: {
+              transactions: [
+                {
+                  amount: { total: response.data.total, currency: 'USD' }
+                }
+              ]
+            }
+          });
+        },
+
+        // onAuthorize() is called when the buyer approves the payment
+        onAuthorize: function(data, actions) {
+
+          // Make a call to the REST api to execute the payment
+          return actions.payment.execute().then(function() {
+            window.alert('Payment Complete!');
+          });
+        }
+      }, '#paypal-button-container');
     }.bind(this)).catch(function(errors) {
       this.errors = errors.response.data.error;
       router.push('/login');
     }.bind(this));
+
   },
   methods: {
 
@@ -401,6 +430,11 @@ var CartsPage = {
         console.log(errors);
       }.bind(this));
       console.log(params);
+    },
+    completePayment: function() {
+      console.log('starting payment');
+      var x = document.scripts.namedItem('pay-pal');
+      console.log(x);
     }
   },
   computed: {}
