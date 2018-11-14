@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Healing Jewels</title>
+  <!-- Paypal script -->
   <script src="https://www.paypalobjects.com/api/checkout.js"></script>
   <!-- Firebase Scripts for Authentication and Picture Storage -->
   <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
@@ -410,6 +411,10 @@
     <section class="section">
       <div class="container">
         <div class="row">
+          <div v-for="error in errors" class="alert alert-warning alert-dismissable fade-in" role='alert'>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>
+            <strong>{{ error.error }}</strong>
+          </div>
           <div class="col-md-9">
             <table v-if="cart['carted_products']" class="table table-striped shadow">
               <h3 class="cart-header">Your Shopping Cart</h3>
@@ -454,13 +459,22 @@
           <div class="col-md-3">
             <h3 class="cart-header">Cart Total:</h3>
             <div class="cart-total shadow">
-              <h4 class="subtotal">Subtotal ({{cart.carted_products.length}} items): <span class="total-text">${{ cart.total }}</span></h4>
-              <button v-on:click="completePayment()" class="btn btn-primary">Complete Payment</button>
+              <h4 class="subtotal center-info">Subtotal ({{cart.carted_products.length}} items): <span class="total-text">${{ cart.total }}</span></h4>
               <div id="paypal-button-container"></div>
             </div>
           </div>
         </div>
       </div>
+    </section>
+  </div>
+</template>
+
+<template id="order-cancel-page">
+  <div class="vue-component">
+    <section class="section">
+      <h1>
+        {{ message }}
+      </h1>
     </section>
   </div>
 </template>

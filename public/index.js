@@ -367,6 +367,15 @@ var CartsPage = {
   created: function() {
     axios.get("/carts/myCart").then(function(response) {
       this.cart = response.data;
+      this.payPal(this.cart.total);
+    }.bind(this)).catch(function(errors) {
+      this.errors = errors.response.data.error;
+      router.push('/login');
+    }.bind(this));
+
+  },
+  methods: {
+    payPal: function(total) {
       paypal.Button.render({
         env: 'sandbox', // sandbox | production
         client: {
@@ -379,7 +388,7 @@ var CartsPage = {
             payment: {
               transactions: [
                 {
-                  amount: { total: response.data.total, currency: 'USD' }
+                  amount: { total: total, currency: 'USD' }
                 }
               ]
             }
@@ -388,21 +397,18 @@ var CartsPage = {
 
         // onAuthorize() is called when the buyer approves the payment
         onAuthorize: function(data, actions) {
-
           // Make a call to the REST api to execute the payment
           return actions.payment.execute().then(function() {
             window.alert('Payment Complete!');
           });
-        }
+        },
+
+        onCancel: function(data) {
+          this.errors.push({error: "Payment Cancelled. Returned to Cart"});
+          console.log('The payment was cancelled!');
+        }.bind(this)
       }, '#paypal-button-container');
-    }.bind(this)).catch(function(errors) {
-      this.errors = errors.response.data.error;
-      router.push('/login');
-    }.bind(this));
-
-  },
-  methods: {
-
+    },
     removeFromCart: function(amount, id) {
       var params = {amount: amount};
       axios.patch("/carted_products/" + id, params).then(function(response) {
@@ -437,6 +443,19 @@ var CartsPage = {
       console.log(x);
     }
   },
+  computed: {}
+};
+
+var OrderCancelPage = {
+  template: "#order-cancel-page",
+  data: function() {
+    return {
+      message: "Order Cancel Page"
+    };
+  },
+  created: function() {
+  },
+  methods: {  },
   computed: {}
 };
 
@@ -516,6 +535,7 @@ var router = new VueRouter({
            { path: "/products/:id/update", component: ProductsUpdatePage },
            { path: "/products/search", component: ProductSearchPage },
            { path: "/products-create", component: ProductsCreatePage },
+           { path: "/order/cancel", component: OrderCancelPage },
            // { path: "/cart", component: CartPage },
            { path: "/carts", component: CartsPage }
            ],
